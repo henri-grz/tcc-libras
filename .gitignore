@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.DS_Store
+*.pth
+
+# Videos da V-LIBRASIL: os termos de uso nao permitem redistribuicao
+data/videos/*
+!data/videos/.gitkeep
+
+# Material de trabalho local, fora do repositorio publico
+CLAUDE.md
+.claude/
+docs/01_cronograma_60dias.md
+*.pdf

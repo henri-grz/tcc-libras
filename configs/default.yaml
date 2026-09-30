@@ -1,0 +1,78 @@
+# Configuracao central do projeto.
+# Todo experimento carrega este arquivo via src.config.load_config().
+
+paths:
+  videos: data/videos
+  cache: data/cache
+  results: results
+
+# Os 11 sinais do trabalho original. Mantidos iguais para comparabilidade direta com o baseline.
+classes:
+  - Abacaxi
+  - Abraco
+  - Ano
+  - Cafe
+  - Casa
+  - Escola
+  - Esperar
+  - Livro
+  - Meia
+  - Ocupado
+  - Oi
+
+extraction:
+  # Resolucao usada pelo trabalho original, mantida para comparabilidade.
+  frame_width: 1024
+  frame_height: 768
+  model_complexity: 1
+  min_detection_confidence: 0.5
+  min_tracking_confidence: 0.5
+  # Convencao de nome de arquivo. Aceita "Abacaxi_1.mov" ou "Abacaxi 1.mov".
+  # O grupo 1 e o sinal, o grupo 2 e o articulador.
+  filename_regex: '^(?P<sinal>[A-Za-zÀ-ÿ]+)[ _-]+(?P<articulador>[0-9A-Za-z]+)'
+
+features:
+  # Subconjunto de pose: parte superior do corpo, indices 0 a 24 do MediaPipe Pose.
+  # A face nao entra (ver trabalhos futuros).
+  pose_indices: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+  use_pose: true
+  use_hands: true
+  # Flags de presenca de cada mao, um bit por mao por frame.
+  use_presence_flags: true
+  # Normalizacao invariante: origem no ponto medio dos ombros, escala pela
+  # distancia entre ombros. Aplicada por frame.
+  normalize_anchor: true
+  # Reamostragem temporal para numero fixo de frames. Substitui o corte manual
+  # da posicao neutra do trabalho original.
+  sequence_length: 32
+
+training:
+  epochs: 200
+  batch_size: 16
+  learning_rate: 0.001
+  early_stopping_patience: 15
+  val_size: 0.2
+  seeds: [42, 1337, 2024]
+
+# Parametros do pipeline ORIGINAL, replicados fielmente para o exp01.
+# Nao "corrigir" nada aqui: este bloco existe para reproduzir o baseline.
+baseline_original:
+  sequence_length: 200
+  test_size: 0.1
+  random_state: 42
+  epochs: 200
+  batch_size: 32
+  learning_rate: 0.001
+  early_stopping_patience: 5
+
+# Desvio deliberado da reproducao, NAO um parametro do trabalho original.
+# O pipeline de Prestes gera uma janela por ponto (440.216 janelas com este dataset).
+# Subamostrar e necessario por custo computacional, mas o valor escolhido altera a
+# MAGNITUDE do resultado: 8.000 janelas dao 13,4% de teste com 90,7% de treino.
+# Ponto de operacao e regra de plato em docs/03_protocolo_curva_exp01.md.
+# 0 desativa a subamostragem (fidelidade total).
+reproducao:
+  # exp01, exp02, exp04: janelas deslizantes de 200 pontos
+  max_sequences: 8000
+  # exp03: pontos 3D individuais
+  max_points: 200000

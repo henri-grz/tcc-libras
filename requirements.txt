@@ -1,0 +1,11 @@
+# Fixar versoes e parte da correcao da falha S16 do baseline (sem requirements,
+# sem versoes reportadas). Ajuste as versoes conforme o que instalar de fato e
+# reporte-as no capitulo de materiais e metodos do TCC.
+numpy>=1.26
+pandas>=2.0
+scikit-learn>=1.4
+PyYAML>=6.0
+matplotlib>=3.8
+torch>=2.2
+opencv-python>=4.9
+mediapipe==0.10.21
