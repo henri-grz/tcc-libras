@@ -67,6 +67,9 @@ Cada experimento grava um JSON em `results/` mais a matriz de confusao em PNG.
 
 `exp01` a `exp04` formam a reproducao e os controles. `exp05` e o resultado principal.
 
+`diag_exp05` nao e experimento do TCC: e o diagnostico que motivou a revisao do
+protocolo de treino do `exp05` e do `exp06` (ver `docs/04_revisao_protocolo_exp05.md`).
+
 ## Decisoes de projeto
 
 - **Uma amostra = um video.** Nunca por frame, nunca por landmark.
@@ -79,7 +82,10 @@ Cada experimento grava um JSON em `results/` mais a matriz de confusao em PNG.
 - **Normalizacao invariante:** origem no ponto medio dos ombros, escala pela distancia
   entre ombros, aplicada por frame antes de qualquer padronizacao estatistica.
 - **Split sempre agrupado por video**; para o resultado principal, leave-one-signer-out.
-- **Early stopping na loss de validacao**, com restauracao dos melhores pesos.
+- **Epocas fixas definidas a priori no exp05 e no exp06**, sem validacao. A primeira
+  rodada usava early stopping na loss de validacao e parou na epoca 1 em todas as
+  execucoes. A revisao e a evidencia estao em `docs/04_revisao_protocolo_exp05.md`, e o
+  protocolo original continua disponivel com `--protocolo original`.
 - **Metricas com o nome correto.** Recall nunca e reportado como acuracia.
 - **Seeds fixadas** por `src/seeding.py`; resultado principal e media de 3 seeds com
   desvio padrao.
@@ -94,6 +100,7 @@ docs/
   00_diagnostico_baseline.md   pontos do trabalho original com evidencia de codigo
   02_glossario_tecnico.md      conceitos com os numeros medidos neste dataset
   03_protocolo_curva_exp01.md  regra do ponto de operacao do exp01, definida a priori
+  04_revisao_protocolo_exp05.md  revisao do protocolo de treino do exp05 e do exp06
 src/
   config.py               carregamento de configuracao
   seeding.py              fixacao de seed

@@ -50,9 +50,15 @@ training:
   epochs: 200
   batch_size: 16
   learning_rate: 0.001
+  seeds: [42, 1337, 2024]
+  # Protocolo de treino do exp05 e do exp06. Revisado em 05/10/2026, ver
+  # docs/04_revisao_protocolo_exp05.md.
+  #   revisado: epocas fixas (epochs), sem validacao, pesos da ultima epoca
+  #   original: early stopping na loss de validacao (primeira rodada do exp05)
+  protocolo_loso: revisado
+  # Usados so pelo protocolo original
   early_stopping_patience: 15
   val_size: 0.2
-  seeds: [42, 1337, 2024]
 
 # Parametros do pipeline ORIGINAL, replicados fielmente para o exp01.
 # Nao "corrigir" nada aqui: este bloco existe para reproduzir o baseline.

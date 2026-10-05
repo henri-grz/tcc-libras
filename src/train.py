@@ -6,6 +6,10 @@ melhores pesos sao restaurados no fim.
 
 O modo `monitor="train_loss"` existe apenas para reproduzir o comportamento original
 no exp01.
+
+O modo `monitor="none"` treina todas as epocas e mantem os pesos finais, sem
+validacao. E o protocolo revisado do exp05 e do exp06, ver
+docs/04_revisao_protocolo_exp05.md.
 """
 
 from __future__ import annotations
@@ -86,12 +90,16 @@ def train_model(
     """Treina o modelo e devolve o historico.
 
     Args:
-        monitor: "val_loss" (correto) ou "train_loss" (comportamento do baseline).
-        patience: epocas sem melhora antes de parar.
+        monitor: "val_loss" (early stopping na validacao), "train_loss" (comportamento
+            do baseline) ou "none" (epocas fixas, pesos finais, protocolo revisado).
+        patience: epocas sem melhora antes de parar. Ignorado com monitor="none".
 
     Returns:
-        History. Os pesos do modelo ficam nos melhores encontrados pelo monitor.
+        History. Os pesos do modelo ficam nos melhores encontrados pelo monitor, ou nos
+        da ultima epoca com monitor="none".
     """
+    if monitor not in {"val_loss", "train_loss", "none"}:
+        raise ValueError(f"monitor desconhecido: {monitor}")
     device = device or get_device()
     model = model.to(device)
 
@@ -138,15 +146,17 @@ def train_model(
         else:
             v_loss, v_acc = float("nan"), float("nan")
 
-        score = v_loss if monitor == "val_loss" else tr_loss
-
-        if score < best_score - 1e-6:
-            best_score = score
-            best_state = copy.deepcopy(model.state_dict())
+        if monitor == "none":
             hist.best_epoch = epoch
-            epochs_without_improvement = 0
         else:
-            epochs_without_improvement += 1
+            score = v_loss if monitor == "val_loss" else tr_loss
+            if score < best_score - 1e-6:
+                best_score = score
+                best_state = copy.deepcopy(model.state_dict())
+                hist.best_epoch = epoch
+                epochs_without_improvement = 0
+            else:
+                epochs_without_improvement += 1
 
         if verbose and (epoch % 10 == 0 or epoch == epochs - 1):
             msg = f"[epoch {epoch + 1}/{epochs}] loss={tr_loss:.4f} acc={tr_acc:.3f}"
@@ -160,7 +170,8 @@ def train_model(
                 print(f"[early stopping] epoca {epoch + 1}, monitor={monitor}")
             break
 
-    model.load_state_dict(best_state)
+    if monitor != "none":
+        model.load_state_dict(best_state)
     if hist.stopped_epoch < 0:
         hist.stopped_epoch = epochs - 1
     return hist

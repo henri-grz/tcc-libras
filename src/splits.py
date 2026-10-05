@@ -109,6 +109,26 @@ def loso_folds(
     return folds
 
 
+PROTOCOLOS_LOSO = ("revisado", "original")
+
+
+def protocol_train_val(split: Split, protocolo: str) -> tuple[np.ndarray, np.ndarray]:
+    """Indices de treino e de validacao de um fold, conforme o protocolo de treino.
+
+    - "original": treino e validacao como saem de `loso_folds`; a validacao alimenta o
+      early stopping. E o protocolo da primeira rodada do exp05.
+    - "revisado": a validacao volta para o treino e nao ha validacao. O treino usa
+      epocas fixas. Ver docs/04_revisao_protocolo_exp05.md.
+
+    Em nenhum dos dois o teste e tocado.
+    """
+    if protocolo == "original":
+        return split.train, split.val
+    if protocolo == "revisado":
+        return np.concatenate([split.train, split.val]), np.array([], dtype=np.int64)
+    raise ValueError(f"protocolo desconhecido: {protocolo}. disponiveis: {PROTOCOLOS_LOSO}")
+
+
 def leaky_pointlevel_split(
     n_rows: int, test_size: float = 0.1, random_state: int = 42
 ) -> tuple[np.ndarray, np.ndarray]:

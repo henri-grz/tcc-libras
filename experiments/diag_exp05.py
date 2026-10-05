@@ -220,6 +220,11 @@ def main() -> None:
     k_min = next(k for k in range(n_total + 1) if binom_sf(k, n_total, chance) < 0.05)
 
     banner("como ler")
+    if args.smoke:
+        print(
+            "ATENCAO: modo smoke. Com tao poucas epocas, os diagnosticos 1 e 2 nao dizem\n"
+            "nada sobre o treino. So o diagnostico 3 (1-NN, sem treino) vale.\n"
+        )
     print(
         f"- O acaso acerta em media {n_total * chance:.1f} de {n_total} videos. Para dizer que\n"
         f"  algo supera o acaso com p < 0,05, sao precisos pelo menos {k_min}/{n_total} acertos.\n"

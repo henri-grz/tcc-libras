@@ -6,6 +6,9 @@ algo sobre os landmarks de mao, usando o pipeline corrigido e o protocolo LOSO.
 A ablacao e feita fatiando o vetor de features ja construido, sem re-extrair nada do
 video. Isso e possivel porque o layout do vetor e determinado por `FeatureSpec`.
 
+Usa o mesmo protocolo de treino do exp05 (`--protocolo`, padrao em
+training.protocolo_loso do YAML). Ver docs/04_revisao_protocolo_exp05.md.
+
 Uso:
     python -m experiments.exp06_ablacao_features --smoke
     python -m experiments.exp06_ablacao_features
@@ -18,14 +21,19 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from experiments._common import banner, base_parser  # noqa: E402
+from experiments._common import (  # noqa: E402
+    add_protocol_arg,
+    banner,
+    base_parser,
+    stopping_kwargs,
+)
 
 from src.config import load_config
 from src.dataset import build_dataset, standardize
 from src.evaluate import aggregate_runs, compute_metrics, save_result
 from src.models import build_model
 from src.seeding import set_seed
-from src.splits import assert_no_group_leakage, loso_folds
+from src.splits import assert_no_group_leakage, loso_folds, protocol_train_val
 from src.train import get_device, predict, train_model
 
 NAME = "exp06_ablacao_features"
@@ -45,17 +53,23 @@ def main() -> None:
     ap.add_argument(
         "--ablations", nargs="+", default=list(ABLATIONS), choices=list(ABLATIONS)
     )
+    add_protocol_arg(ap)
     args = ap.parse_args()
 
     cfg = load_config(args.config)
     tr_cfg = cfg.training
+    protocolo = args.protocolo or str(tr_cfg["protocolo_loso"])
+    run_name = f"{NAME}_{protocolo}"
     seeds = args.seeds or list(tr_cfg["seeds"])
     if args.smoke:
         seeds = seeds[:1]
     epochs = 5 if args.smoke else int(tr_cfg["epochs"])
     device = get_device(prefer_cuda=not args.cpu)
 
-    banner("EXP06 - ablacao de features com protocolo LOSO")
+    banner(
+        "EXP06 - ablacao de features com protocolo LOSO",
+        f"protocolo de treino: {protocolo}",
+    )
 
     full = build_dataset(cfg)
     print(full.describe())
@@ -79,21 +93,22 @@ def main() -> None:
         for seed in seeds:
             for fold in folds:
                 set_seed(seed)
-                assert_no_group_leakage(subset.groups, fold.train, fold.test)
+                tr_idx, val_idx = protocol_train_val(fold, protocolo)
+                assert_no_group_leakage(subset.groups, tr_idx, fold.test)
+                assert_no_group_leakage(subset.groups, tr_idx, val_idx)
 
                 X_tr, X_val, X_te = standardize(
-                    subset.X[fold.train], subset.X[fold.val], subset.X[fold.test]
+                    subset.X[tr_idx], subset.X[val_idx], subset.X[fold.test]
                 )
                 model = build_model(
                     args.model, input_size=subset.dim, num_classes=len(subset.class_names)
                 )
                 train_model(
-                    model, X_tr, subset.y[fold.train], X_val, subset.y[fold.val],
-                    epochs=epochs,
+                    model, X_tr, subset.y[tr_idx], X_val, subset.y[val_idx],
                     batch_size=int(tr_cfg["batch_size"]),
                     learning_rate=float(tr_cfg["learning_rate"]),
-                    patience=int(tr_cfg["early_stopping_patience"]),
-                    monitor="val_loss", device=device, verbose=False,
+                    device=device, verbose=False,
+                    **stopping_kwargs(protocolo, tr_cfg, epochs),
                 )
                 metrics = compute_metrics(
                     subset.y[fold.test],
@@ -125,10 +140,13 @@ def main() -> None:
         )
 
     save_result(
-        NAME,
+        run_name,
         {
             "descricao": "ablacao de blocos de features sob protocolo LOSO",
             "modelo": args.model,
+            "protocolo_treino": protocolo,
+            "parada": stopping_kwargs(protocolo, tr_cfg, epochs),
+            "revisao": "docs/04_revisao_protocolo_exp05.md",
             "smoke": bool(args.smoke),
             "seeds": seeds,
             "resultados": results,

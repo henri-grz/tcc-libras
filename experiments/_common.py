@@ -29,3 +29,29 @@ def banner(title: str, subtitle: str = "") -> None:
     if subtitle:
         print(subtitle)
     print(line)
+
+
+def add_protocol_arg(ap: argparse.ArgumentParser) -> None:
+    """Escolha do protocolo de treino do exp05 e do exp06.
+
+    Sem a flag, vale `training.protocolo_loso` do YAML. Ver
+    docs/04_revisao_protocolo_exp05.md.
+    """
+    ap.add_argument(
+        "--protocolo",
+        choices=("revisado", "original"),
+        default=None,
+        help="revisado: epocas fixas, sem validacao | original: early stopping na "
+             "loss de validacao (padrao: training.protocolo_loso do YAML)",
+    )
+
+
+def stopping_kwargs(protocolo: str, tr_cfg: dict, epochs: int) -> dict:
+    """Argumentos de parada de `train_model` para cada protocolo."""
+    if protocolo == "revisado":
+        return {"epochs": epochs, "monitor": "none"}
+    return {
+        "epochs": epochs,
+        "monitor": "val_loss",
+        "patience": int(tr_cfg["early_stopping_patience"]),
+    }
