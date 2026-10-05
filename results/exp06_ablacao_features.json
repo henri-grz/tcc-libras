@@ -1,0 +1,7099 @@
+{
+  "experimento": "exp06_ablacao_features",
+  "timestamp": "2026-10-05T14:28:44",
+  "descricao": "ablacao de blocos de features sob protocolo LOSO",
+  "modelo": "lstm_corrected",
+  "smoke": false,
+  "seeds": [
+    42,
+    1337,
+    2024
+  ],
+  "resultados": {
+    "maos": {
+      "blocks": [
+        "left_hand",
+        "right_hand",
+        "flags"
+      ],
+      "dim": 128,
+      "aggregate": {
+        "n_runs": 9,
+        "accuracy": {
+          "mean": 0.08080808080808081,
+          "std": 0.05462956477975741,
+          "values": [
+            0.09090909090909091,
+            0.0,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.18181818181818182,
+            0.0,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091
+          ]
+        },
+        "balanced_accuracy": {
+          "mean": 0.08080808080808081,
+          "std": 0.05462956477975741,
+          "values": [
+            0.09090909090909091,
+            0.0,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.18181818181818182,
+            0.0,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091
+          ]
+        },
+        "precision_macro": {
+          "mean": 0.013128762371186615,
+          "std": 0.017258477888184503,
+          "values": [
+            0.018181818181818184,
+            0.0,
+            0.008264462809917356,
+            0.008264462809917356,
+            0.056818181818181816,
+            0.0,
+            0.008264462809917356,
+            0.008264462809917356,
+            0.0101010101010101
+          ]
+        },
+        "recall_macro": {
+          "mean": 0.08080808080808081,
+          "std": 0.05462956477975741,
+          "values": [
+            0.09090909090909091,
+            0.0,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.18181818181818182,
+            0.0,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091
+          ]
+        },
+        "f1_macro": {
+          "mean": 0.021099887766554432,
+          "std": 0.024213179142576507,
+          "values": [
+            0.0303030303030303,
+            0.0,
+            0.01515151515151515,
+            0.01515151515151515,
+            0.0808080808080808,
+            0.0,
+            0.01515151515151515,
+            0.01515151515151515,
+            0.018181818181818184
+          ]
+        },
+        "f1_weighted": {
+          "mean": 0.021099887766554432,
+          "std": 0.024213179142576507,
+          "values": [
+            0.0303030303030303,
+            0.0,
+            0.01515151515151515,
+            0.01515151515151515,
+            0.0808080808080808,
+            0.0,
+            0.01515151515151515,
+            0.01515151515151515,
+            0.018181818181818184
+          ]
+        }
+      },
+      "runs": [
+        {
+          "seed": 42,
+          "fold": "loso(holdout=1)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.018181818181818184,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.0303030303030303,
+          "precision_weighted": 0.018181818181818184,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.0303030303030303,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.2,
+              "recall": 1.0,
+              "f1": 0.3333333333333333,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 42,
+          "fold": "loso(holdout=2)",
+          "n_test": 11,
+          "accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.0,
+          "recall_macro": 0.0,
+          "f1_macro": 0.0,
+          "precision_weighted": 0.0,
+          "recall_weighted": 0.0,
+          "f1_weighted": 0.0,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 42,
+          "fold": "loso(holdout=3)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.008264462809917356,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.01515151515151515,
+          "precision_weighted": 0.008264462809917356,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.01515151515151515,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.09090909090909091,
+              "recall": 1.0,
+              "f1": 0.16666666666666666,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 1337,
+          "fold": "loso(holdout=1)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.008264462809917356,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.01515151515151515,
+          "precision_weighted": 0.008264462809917356,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.01515151515151515,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.09090909090909091,
+              "recall": 1.0,
+              "f1": 0.16666666666666666,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 1337,
+          "fold": "loso(holdout=2)",
+          "n_test": 11,
+          "accuracy": 0.18181818181818182,
+          "balanced_accuracy": 0.18181818181818182,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.056818181818181816,
+          "recall_macro": 0.18181818181818182,
+          "f1_macro": 0.0808080808080808,
+          "precision_weighted": 0.056818181818181816,
+          "recall_weighted": 0.18181818181818182,
+          "f1_weighted": 0.0808080808080808,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.125,
+              "recall": 1.0,
+              "f1": 0.2222222222222222,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.5,
+              "recall": 1.0,
+              "f1": 0.6666666666666666,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 1337,
+          "fold": "loso(holdout=3)",
+          "n_test": 11,
+          "accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.0,
+          "recall_macro": 0.0,
+          "f1_macro": 0.0,
+          "precision_weighted": 0.0,
+          "recall_weighted": 0.0,
+          "f1_weighted": 0.0,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 2024,
+          "fold": "loso(holdout=1)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.008264462809917356,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.01515151515151515,
+          "precision_weighted": 0.008264462809917356,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.01515151515151515,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.09090909090909091,
+              "recall": 1.0,
+              "f1": 0.16666666666666666,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 2024,
+          "fold": "loso(holdout=2)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.008264462809917356,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.01515151515151515,
+          "precision_weighted": 0.008264462809917356,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.01515151515151515,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.09090909090909091,
+              "recall": 1.0,
+              "f1": 0.16666666666666666,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 2024,
+          "fold": "loso(holdout=3)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.0101010101010101,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.018181818181818184,
+          "precision_weighted": 0.0101010101010101,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.018181818181818184,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.1111111111111111,
+              "recall": 1.0,
+              "f1": 0.2,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        }
+      ]
+    },
+    "maos_pose": {
+      "blocks": [
+        "pose",
+        "left_hand",
+        "right_hand",
+        "flags"
+      ],
+      "dim": 203,
+      "aggregate": {
+        "n_runs": 9,
+        "accuracy": {
+          "mean": 0.10101010101010101,
+          "std": 0.030303030303030304,
+          "values": [
+            0.09090909090909091,
+            0.09090909090909091,
+            0.18181818181818182,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091
+          ]
+        },
+        "balanced_accuracy": {
+          "mean": 0.10101010101010101,
+          "std": 0.030303030303030304,
+          "values": [
+            0.09090909090909091,
+            0.09090909090909091,
+            0.18181818181818182,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091
+          ]
+        },
+        "precision_macro": {
+          "mean": 0.013962132143950328,
+          "std": 0.012055674675498463,
+          "values": [
+            0.01515151515151515,
+            0.012987012987012986,
+            0.045454545454545456,
+            0.008264462809917356,
+            0.008264462809917356,
+            0.008264462809917356,
+            0.009090909090909092,
+            0.009090909090909092,
+            0.009090909090909092
+          ]
+        },
+        "recall_macro": {
+          "mean": 0.10101010101010101,
+          "std": 0.030303030303030304,
+          "values": [
+            0.09090909090909091,
+            0.09090909090909091,
+            0.18181818181818182,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091
+          ]
+        },
+        "f1_macro": {
+          "mean": 0.023907910271546637,
+          "std": 0.018225146041502244,
+          "values": [
+            0.025974025974025972,
+            0.022727272727272728,
+            0.07142857142857142,
+            0.01515151515151515,
+            0.01515151515151515,
+            0.01515151515151515,
+            0.01652892561983471,
+            0.01652892561983471,
+            0.01652892561983471
+          ]
+        },
+        "f1_weighted": {
+          "mean": 0.023907910271546637,
+          "std": 0.018225146041502244,
+          "values": [
+            0.025974025974025972,
+            0.022727272727272728,
+            0.07142857142857142,
+            0.01515151515151515,
+            0.01515151515151515,
+            0.01515151515151515,
+            0.01652892561983471,
+            0.01652892561983471,
+            0.01652892561983471
+          ]
+        }
+      },
+      "runs": [
+        {
+          "seed": 42,
+          "fold": "loso(holdout=1)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.01515151515151515,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.025974025974025972,
+          "precision_weighted": 0.01515151515151515,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.025974025974025972,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.16666666666666666,
+              "recall": 1.0,
+              "f1": 0.2857142857142857,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 42,
+          "fold": "loso(holdout=2)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.012987012987012986,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.022727272727272728,
+          "precision_weighted": 0.012987012987012986,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.022727272727272728,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.14285714285714285,
+              "recall": 1.0,
+              "f1": 0.25,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 42,
+          "fold": "loso(holdout=3)",
+          "n_test": 11,
+          "accuracy": 0.18181818181818182,
+          "balanced_accuracy": 0.18181818181818182,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.045454545454545456,
+          "recall_macro": 0.18181818181818182,
+          "f1_macro": 0.07142857142857142,
+          "precision_weighted": 0.045454545454545456,
+          "recall_weighted": 0.18181818181818182,
+          "f1_weighted": 0.07142857142857142,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.16666666666666666,
+              "recall": 1.0,
+              "f1": 0.2857142857142857,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.3333333333333333,
+              "recall": 1.0,
+              "f1": 0.5,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 1337,
+          "fold": "loso(holdout=1)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.008264462809917356,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.01515151515151515,
+          "precision_weighted": 0.008264462809917356,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.01515151515151515,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.09090909090909091,
+              "recall": 1.0,
+              "f1": 0.16666666666666666,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 1337,
+          "fold": "loso(holdout=2)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.008264462809917356,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.01515151515151515,
+          "precision_weighted": 0.008264462809917356,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.01515151515151515,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.09090909090909091,
+              "recall": 1.0,
+              "f1": 0.16666666666666666,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 1337,
+          "fold": "loso(holdout=3)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.008264462809917356,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.01515151515151515,
+          "precision_weighted": 0.008264462809917356,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.01515151515151515,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.09090909090909091,
+              "recall": 1.0,
+              "f1": 0.16666666666666666,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 2024,
+          "fold": "loso(holdout=1)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.009090909090909092,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.01652892561983471,
+          "precision_weighted": 0.009090909090909092,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.01652892561983471,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.1,
+              "recall": 1.0,
+              "f1": 0.18181818181818182,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 2024,
+          "fold": "loso(holdout=2)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.009090909090909092,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.01652892561983471,
+          "precision_weighted": 0.009090909090909092,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.01652892561983471,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.1,
+              "recall": 1.0,
+              "f1": 0.18181818181818182,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 2024,
+          "fold": "loso(holdout=3)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.009090909090909092,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.01652892561983471,
+          "precision_weighted": 0.009090909090909092,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.01652892561983471,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.1,
+              "recall": 1.0,
+              "f1": 0.18181818181818182,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        }
+      ]
+    },
+    "so_pose": {
+      "blocks": [
+        "pose"
+      ],
+      "dim": 75,
+      "aggregate": {
+        "n_runs": 9,
+        "accuracy": {
+          "mean": 0.09090909090909091,
+          "std": 0.0,
+          "values": [
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091
+          ]
+        },
+        "balanced_accuracy": {
+          "mean": 0.09090909090909091,
+          "std": 0.0,
+          "values": [
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091
+          ]
+        },
+        "precision_macro": {
+          "mean": 0.011473319049076626,
+          "std": 0.005271204895064388,
+          "values": [
+            0.009090909090909092,
+            0.008264462809917356,
+            0.008264462809917356,
+            0.0101010101010101,
+            0.018181818181818184,
+            0.008264462809917356,
+            0.0101010101010101,
+            0.008264462809917356,
+            0.022727272727272728
+          ]
+        },
+        "recall_macro": {
+          "mean": 0.09090909090909091,
+          "std": 0.0,
+          "values": [
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091,
+            0.09090909090909091
+          ]
+        },
+        "f1_macro": {
+          "mean": 0.02001836547291093,
+          "std": 0.007799111662199486,
+          "values": [
+            0.01652892561983471,
+            0.01515151515151515,
+            0.01515151515151515,
+            0.018181818181818184,
+            0.0303030303030303,
+            0.01515151515151515,
+            0.018181818181818184,
+            0.01515151515151515,
+            0.03636363636363637
+          ]
+        },
+        "f1_weighted": {
+          "mean": 0.02001836547291093,
+          "std": 0.007799111662199486,
+          "values": [
+            0.01652892561983471,
+            0.01515151515151515,
+            0.01515151515151515,
+            0.018181818181818184,
+            0.0303030303030303,
+            0.01515151515151515,
+            0.018181818181818184,
+            0.01515151515151515,
+            0.03636363636363637
+          ]
+        }
+      },
+      "runs": [
+        {
+          "seed": 42,
+          "fold": "loso(holdout=1)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.009090909090909092,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.01652892561983471,
+          "precision_weighted": 0.009090909090909092,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.01652892561983471,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.1,
+              "recall": 1.0,
+              "f1": 0.18181818181818182,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 42,
+          "fold": "loso(holdout=2)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.008264462809917356,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.01515151515151515,
+          "precision_weighted": 0.008264462809917356,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.01515151515151515,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.09090909090909091,
+              "recall": 1.0,
+              "f1": 0.16666666666666666,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 42,
+          "fold": "loso(holdout=3)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.008264462809917356,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.01515151515151515,
+          "precision_weighted": 0.008264462809917356,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.01515151515151515,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.09090909090909091,
+              "recall": 1.0,
+              "f1": 0.16666666666666666,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 1337,
+          "fold": "loso(holdout=1)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.0101010101010101,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.018181818181818184,
+          "precision_weighted": 0.0101010101010101,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.018181818181818184,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.1111111111111111,
+              "recall": 1.0,
+              "f1": 0.2,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 1337,
+          "fold": "loso(holdout=2)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.018181818181818184,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.0303030303030303,
+          "precision_weighted": 0.018181818181818184,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.0303030303030303,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.2,
+              "recall": 1.0,
+              "f1": 0.3333333333333333,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 1337,
+          "fold": "loso(holdout=3)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.008264462809917356,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.01515151515151515,
+          "precision_weighted": 0.008264462809917356,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.01515151515151515,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.09090909090909091,
+              "recall": 1.0,
+              "f1": 0.16666666666666666,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 2024,
+          "fold": "loso(holdout=1)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.0101010101010101,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.018181818181818184,
+          "precision_weighted": 0.0101010101010101,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.018181818181818184,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.1111111111111111,
+              "recall": 1.0,
+              "f1": 0.2,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 2024,
+          "fold": "loso(holdout=2)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.008264462809917356,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.01515151515151515,
+          "precision_weighted": 0.008264462809917356,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.01515151515151515,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.09090909090909091,
+              "recall": 1.0,
+              "f1": 0.16666666666666666,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 2024,
+          "fold": "loso(holdout=3)",
+          "n_test": 11,
+          "accuracy": 0.09090909090909091,
+          "balanced_accuracy": 0.09090909090909091,
+          "chance_level": 0.09090909090909091,
+          "precision_macro": 0.022727272727272728,
+          "recall_macro": 0.09090909090909091,
+          "f1_macro": 0.03636363636363637,
+          "precision_weighted": 0.022727272727272728,
+          "recall_weighted": 0.09090909090909091,
+          "f1_weighted": 0.03636363636363637,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ano",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Escola",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Meia",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Ocupado",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.25,
+              "recall": 1.0,
+              "f1": 0.4,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Ano",
+            "Cafe",
+            "Casa",
+            "Escola",
+            "Esperar",
+            "Livro",
+            "Meia",
+            "Ocupado",
+            "Oi"
+          ]
+        }
+      ]
+    }
+  }
+}
