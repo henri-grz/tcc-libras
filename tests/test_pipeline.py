@@ -24,7 +24,12 @@ from src.landmarks_spec import (  # noqa: E402
     build_frame_matrix,
     resample_to_length,
 )
-from src.splits import assert_no_group_leakage, grouped_train_val_test, loso_folds  # noqa: E402
+from src.splits import (  # noqa: E402
+    assert_no_group_leakage,
+    grouped_train_val_test,
+    loso_folds,
+    protocol_train_val,
+)
 
 SPEC = FeatureSpec(pose_indices=tuple(range(25)))
 
@@ -128,6 +133,37 @@ def test_splits_are_group_disjoint() -> None:
     for fold in folds:
         assert len(set(signers[fold.test])) == 1, "cada fold testa um unico sinalizador"
         assert not set(signers[fold.test]) & set(signers[fold.train])
+
+
+def test_protocol_train_val() -> None:
+    """Revisado: treino = todos os outros sinalizadores, sem validacao. Original: intacto."""
+    y = np.repeat(np.arange(5), 3)
+    signers = np.tile(np.array(["1", "2", "3"]), 5)
+    groups = np.array([f"c{c}_s{s}" for c, s in zip(y, signers)])
+    for fold in loso_folds(y, groups, signers, val_size=0.3, seed=42):
+        tr, val = protocol_train_val(fold, "revisado")
+        assert len(val) == 0, "protocolo revisado nao tem validacao"
+        assert sorted(tr.tolist()) == sorted(np.where(signers != signers[fold.test[0]])[0].tolist())
+        assert_no_group_leakage(groups, tr, fold.test)
+
+        tr, val = protocol_train_val(fold, "original")
+        assert np.array_equal(tr, fold.train) and np.array_equal(val, fold.val)
+
+
+def test_fixed_epochs_keeps_final_weights() -> None:
+    """monitor="none" treina todas as epocas e nao restaura pesos antigos."""
+    import torch
+
+    from src.train import train_model
+
+    rng = np.random.RandomState(0)
+    X = rng.normal(size=(8, 4, 3)).astype(np.float32)
+    y = np.arange(8) % 2
+    model = torch.nn.Sequential(torch.nn.Flatten(), torch.nn.Linear(12, 2))
+    hist = train_model(model, X, y, epochs=7, monitor="none", device=torch.device("cpu"),
+                       verbose=False)
+    assert hist.stopped_epoch == 6 and hist.best_epoch == 6
+    assert len(hist.train_loss) == 7
 
 
 def test_filename_parser() -> None:
