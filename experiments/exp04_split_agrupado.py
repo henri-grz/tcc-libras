@@ -106,10 +106,20 @@ def main() -> None:
     accs = np.array([r["accuracy"] for r in runs])
     print_summary(runs[0], "EXP04 detalhe da primeira seed")
 
-    # Compara com o exp01, se ele ja foi rodado.
-    exp01_path = cfg.results_dir / "exp01_reproduzir_baseline.json"
+    # Compara com o exp01, se ele ja foi rodado. O ponto de operacao e o dataset
+    # completo (docs/03), salvo com o sufixo _completo.
+    exp01_path = next(
+        (
+            p for p in (
+                cfg.results_dir / "exp01_reproduzir_baseline_completo.json",
+                cfg.results_dir / "exp01_reproduzir_baseline.json",
+            )
+            if p.exists()
+        ),
+        None,
+    )
     delta = None
-    if exp01_path.exists():
+    if exp01_path is not None:
         with open(exp01_path, encoding="utf-8") as f:
             exp01_acc = json.load(f)["metrics"]["accuracy"]
         delta = float(exp01_acc - accs.mean())

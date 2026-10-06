@@ -104,7 +104,7 @@ def main() -> None:
 
     print_summary(runs[0], "EXP02 detalhe da primeira seed")
     banner("EXP02 conclusao")
-    print(f"acuracia media com rotulos aleatorios : {accs.mean() * 100:.2f}% (+- {accs.std(ddof=1) if len(accs) > 1 else 0.0:.4f})")
+    print(f"acuracia media com rotulos aleatorios : {accs.mean() * 100:.2f}% (+- {(accs.std(ddof=1) if len(accs) > 1 else 0.0) * 100:.2f} pp)")
     print(f"nivel de chance                       : {chance * 100:.2f}%")
     print(f"razao acuracia/chance                 : {ratio:.2f}x")
     if ratio > 1.5:
