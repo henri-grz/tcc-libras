@@ -48,3 +48,19 @@ A curva da LSTM e lida contra essa referencia.
 
 Nao mede reconhecimento de sinal. Mede com que densidade o vazamento e amostrado.
 Esse e o resultado a ser reportado no capitulo 4.
+
+## Resultado (registrado em 05/10/2026)
+
+| `max_sequences` | Acuracia de teste | Ganho sobre o ponto anterior |
+|---|---|---|
+| 8.000 | 13,38% | |
+| 32.000 | 35,06% | +21,68 pp |
+| 128.000 | 49,47% | +14,41 pp |
+| sem subamostragem (440.016 janelas de treino) | 54,99% | +5,52 pp |
+
+O ganho nunca ficou abaixo de 3 pp: **o limiar de plato nao foi atingido**. Pela regra
+acima, adota-se o ponto de fidelidade total, sem subamostragem
+(`--max-sequences 0`), para o `exp02` e o `exp04`.
+
+Referencia de controle no mesmo ponto: kNN (k=1) sobre um unico ponto 3D chega a
+64,79% com o split embaralhado e a 11,83% com split agrupado por articulador.
