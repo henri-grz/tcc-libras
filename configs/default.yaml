@@ -71,14 +71,14 @@ baseline_original:
   learning_rate: 0.001
   early_stopping_patience: 5
 
-# Desvio deliberado da reproducao, NAO um parametro do trabalho original.
-# O pipeline de Prestes gera uma janela por ponto (440.216 janelas com este dataset).
-# Subamostrar e necessario por custo computacional, mas o valor escolhido altera a
-# MAGNITUDE do resultado: 8.000 janelas dao 13,4% de teste com 90,7% de treino.
-# Ponto de operacao e regra de plato em docs/03_protocolo_curva_exp01.md.
-# 0 desativa a subamostragem (fidelidade total).
+# Subamostragem da reproducao. 0 desativa (fidelidade total ao original, que gera
+# uma janela por ponto: 440.016 janelas de treino com este dataset).
+# O valor altera a MAGNITUDE do resultado do exp01 (8.000 janelas: 13,38%; completo:
+# 54,99%). A curva nao atingiu o plato, entao o ponto de operacao adotado e o
+# completo. Regra e resultado em docs/03_protocolo_curva_exp01.md (05/10/2026).
+# Para refazer a curva: --max-sequences 8000, 32000 ou 128000 na linha de comando.
 reproducao:
   # exp01, exp02, exp04: janelas deslizantes de 200 pontos
-  max_sequences: 8000
-  # exp03: pontos 3D individuais
-  max_points: 200000
+  max_sequences: 0
+  # exp03: pontos 3D individuais (a rodada antiga, exp03_ponto_unico_200k, usou 200000)
+  max_points: 0

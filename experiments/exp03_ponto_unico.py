@@ -43,7 +43,7 @@ NAME = "exp03_ponto_unico"
 def main() -> None:
     ap = base_parser(__doc__.splitlines()[0])
     ap.add_argument("--max-points", type=int, default=None,
-                    help="sobrepoe reproducao.max_points do YAML")
+                    help="sobrepoe reproducao.max_points do YAML (0 = todos os pontos)")
     args = ap.parse_args()
 
     cfg = load_config(args.config)
@@ -69,11 +69,12 @@ def main() -> None:
     y = pld.y
     train_idx, test_idx = leaky_pointlevel_split(len(X), float(bo["test_size"]), seed)
 
-    if len(train_idx) > max_points:
+    # max_points = 0 desativa a subamostragem, como max_sequences no exp01
+    if max_points and len(train_idx) > max_points:
         rng = np.random.RandomState(seed)
         train_idx = rng.choice(train_idx, size=max_points, replace=False)
     n_test_cap = max(max_points // 5, 1)
-    if len(test_idx) > n_test_cap:
+    if max_points and len(test_idx) > n_test_cap:
         rng = np.random.RandomState(seed + 1)
         test_idx = rng.choice(test_idx, size=n_test_cap, replace=False)
 

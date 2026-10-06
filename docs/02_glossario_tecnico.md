@@ -143,8 +143,8 @@ Juntas produzem acuracia alta sem que o modelo tenha aprendido a reconhecer o si
 
 | experimento | o que muda | falha que prova |
 |---|---|---|
-| **exp03** | modelo ve 1 ponto so, sem nenhum tempo | **C1**. Deu 33,14% contra 13,38% da LSTM de 4 camadas no mesmo ponto de operacao. Se um modelo sem tempo ganha do modelo temporal, a modelagem temporal nao contribuia |
-| **exp04** | mantem representacao, modelo e hiperparametros, **troca so o split** | **C2**. O que cair e atribuivel ao vazamento e a mais nada |
+| **exp03** | modelo ve 1 ponto so, sem nenhum tempo | **C1**, com ressalva. No ponto de operacao completo, o MLP sobre 1 ponto deu 35,25%, abaixo da LSTM (54,99%): sozinho, o exp03 nao prova C1. A prova vem de duas outras evidencias: o kNN sobre 1 ponto chega a 64,79% e supera a LSTM no mesmo split, e as janelas nao tem ordem temporal (ver C1 acima). O ganho da LSTM sobre o MLP nao pode vir de modelagem temporal; vem de ajustar melhor o mapeamento ponto -> video |
+| **exp04** | mantem representacao, modelo e hiperparametros, **troca so o split** | **C2**. Caiu de 54,99% para 14,83% +- 5,98 (-40,16 pp). O que cai e atribuivel ao vazamento e a mais nada |
 
 O exp05 (LOSO) muda as duas coisas ao mesmo tempo, por isso sozinho nao atribui culpa.
 Ele da o numero honesto; exp03 e exp04 explicam de onde veio a diferenca.
@@ -174,9 +174,14 @@ A queda entre protocolos e o resultado do TCC:
 | Articulador segurado fora (correto) | 11,82% |
 | Acaso | 9,09% |
 
-O numero honesto e praticamente o acaso. E **mais dados nao movem essa linha**: de
-8.000 a 329.448 pontos ela fica plana em ~12%. Decoreba escala. Entendimento, nessa
-representacao, nao existe para escalar.
+Com a representacao de Prestes (um ponto solto), o numero honesto e praticamente o
+acaso. E **mais dados nao movem essa linha**: de 8.000 a 329.448 pontos ela fica plana
+em ~12%. Decoreba escala. Entendimento, nessa representacao, nao existe para escalar.
+
+Com a representacao corrigida (um video = uma amostra) e o mesmo protocolo de
+articulador segurado fora, o exp05 chega a 24,24% +- 9,09 (protocolo revisado, ver
+`04_revisao_protocolo_exp05.md`): acima do acaso, mas longe dos 70,76% publicados e no
+mesmo nivel de um 1-NN sem treino (30,30% a 33,33%).
 
 | pontos rotulados no treino | split de Prestes | split agrupado |
 |---|---|---|
@@ -211,9 +216,9 @@ kNN e memorizacao pura, com zero compreensao e zero nocao de tempo. Logo mede o 
 da decoreba**: quanto da para acertar so decorando. Qualquer modelo que pontue abaixo
 disso, naquele protocolo, nao demonstrou aprendizado nenhum.
 
-Observacao util para o texto: no mesmo split e com os mesmos dados, o MLP do exp03
-chega a 33,14% onde o kNN chega a ~62%. O teto do vazamento depende da classe de
-modelo. Decorar nuvem de pontos e facil para vizinho mais proximo e dificil para
+Observacao util para o texto: no mesmo split e com os mesmos pontos de treino, o MLP
+do exp03 chega a 35,25% onde o kNN chega a 64,79%. O teto do vazamento depende da
+classe de modelo. Decorar nuvem de pontos e facil para vizinho mais proximo e dificil para
 modelo parametrico.
 
 ---
@@ -226,11 +231,16 @@ landmarks deste projeto (33 videos, 11 sinais, 3 articuladores, 489.129 pontos).
 | numero | origem |
 |---|---|
 | Curvas kNN nos dois splits | `experiments/exp01_curva_controle_knn.py` -> `results/exp01_curva_controle_knn.json` |
-| 33,14% do ponto unico | `experiments/exp03_ponto_unico.py` -> `results/exp03_ponto_unico.json` |
-| 13,38% da LSTM em 8.000 janelas | `results/exp01_reproduzir_baseline_8k.json` |
+| 35,25% do MLP de ponto unico (todos os pontos) | `experiments/exp03_ponto_unico.py` -> `results/exp03_ponto_unico.json` |
+| 33,14% do MLP de ponto unico (200.000 pontos, rodada anterior) | `results/exp03_ponto_unico_200k.json` |
+| 54,99% da LSTM sem subamostragem | `experiments/exp01_reproduzir_baseline.py` -> `results/exp01_reproduzir_baseline_completo.json` |
+| 14,83% +- 5,98 do split agrupado | `experiments/exp04_split_agrupado.py` -> `results/exp04_split_agrupado.json` |
+| 24,24% +- 9,09 do pipeline corrigido | `experiments/exp05_pipeline_corrigido_loso.py` -> `results/exp05_pipeline_corrigido_loso_revisado.json` |
+| 30,30% e 33,33% do 1-NN em LOSO | `experiments/diag_exp05.py` -> `results/diag_exp05.json` |
 | Composicao das janelas, vizinho mais proximo, distancias | medicao pontual sobre `src/baseline_original.build_pointlevel` com o split de `src/splits.leaky_pointlevel_split` |
 | 70,76% e 82,83% | PRESTES (2024), relatados pelo trabalho original |
 
-Os numeros de acuracia da LSTM dependem do ponto de operacao de `max_sequences`, que
-segue a regra de plato registrada em `03_protocolo_curva_exp01.md`. Ao fechar esse
-ponto, revisar a linha do exp03 na secao 3, que compara exp03 contra exp01.
+Os numeros de acuracia da LSTM do baseline dependem do ponto de operacao de
+`max_sequences`. A curva nao atingiu o plato e o ponto adotado e o completo, sem
+subamostragem (`03_protocolo_curva_exp01.md`, registrado em 05/10/2026). A linha do
+exp03 na secao 3 foi revisada em 06/10/2026 com os numeros desse ponto.

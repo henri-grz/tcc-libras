@@ -58,7 +58,7 @@ Cada experimento grava um JSON em `results/` mais a matriz de confusao em PNG.
 
 | Script | Pergunta que responde |
 |---|---|
-| `exp01_reproduzir_baseline` | O pipeline original reproduz os 82,83% relatados? |
+| `exp01_reproduzir_baseline` | O pipeline original reproduz os 70,76% relatados para os 11 sinais? |
 | `exp02_rotulos_aleatorios` | Com rotulos sorteados, a acuracia continua alta? Se sim, e vazamento |
 | `exp03_ponto_unico` | Um classificador que ve UM ponto 3D chega perto do baseline? Se sim, a LSTM nao contribui |
 | `exp04_split_agrupado` | Mesma representacao e mesmo modelo, mudando so o split. Quanto cai? |

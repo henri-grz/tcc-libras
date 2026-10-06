@@ -109,4 +109,23 @@ e `results/exp05_pipeline_corrigido_loso_original.json`, e o mesmo para o exp06.
 
 ## Alteracoes posteriores
 
-Nenhuma ate o momento.
+Nenhuma alteracao de protocolo ate o momento.
+
+## Registro de execucoes (06/10/2026)
+
+Esta secao nao muda o protocolo. Registra rodadas e arquivos que as secoes acima nao
+mencionam, sem editar o texto registrado em 05/10/2026.
+
+- **Rodada original do exp06.** Antes desta revisao, o exp06 tambem foi rodado com o
+  protocolo original (05/10/2026, 14:28), resultado em
+  `results/exp06_ablacao_features_original.json`. Todas as configuracoes ficaram no
+  nivel do acaso, pelo mesmo colapso do early stopping: maos 8,08% +- 5,46,
+  maos + pose 10,10% +- 3,03, so pose 9,09% +- 0,00. As 9 execucoes de maos + pose
+  sao identicas as da primeira rodada do exp05, como esperado. Essa rodada nao foi
+  citada na versao inicial deste documento e passa a ser reportada junto com a
+  revisada, como o exp05.
+- **Primeira rodada do exp05.** O arquivo `results/exp05_pipeline_corrigido_loso.json`
+  (antes da separacao por protocolo) foi removido. A nova rodada com
+  `--protocolo original` (`results/exp05_pipeline_corrigido_loso_original.json`)
+  reproduziu as 9 execucoes exatamente, entao o conteudo e o mesmo. O arquivo antigo
+  continua no historico do git, no commit `bd80f1b`.
