@@ -70,6 +70,12 @@ class Config:
     def results_dir(self) -> Path:
         return self.path("results")
 
+    @property
+    def pessoas_csv(self) -> Path:
+        """Mapeamento video -> pessoa. A coluna `articulador` nao identifica a pessoa."""
+        p = Path(self.raw["paths"].get("pessoas", "data/pessoas.csv"))
+        return p if p.is_absolute() else PROJECT_ROOT / p
+
     def ensure_dirs(self) -> None:
         for d in (self.cache_dir, self.landmarks_dir, self.results_dir):
             d.mkdir(parents=True, exist_ok=True)

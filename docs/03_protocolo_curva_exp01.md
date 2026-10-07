@@ -64,3 +64,10 @@ acima, adota-se o ponto de fidelidade total, sem subamostragem
 
 Referencia de controle no mesmo ponto: kNN (k=1) sobre um unico ponto 3D chega a
 64,79% com o split embaralhado e a 11,83% com split agrupado por articulador.
+
+## Nota sobre o split por articulador (07/10/2026)
+
+A coluna 3 usada como teste no split agrupado da curva kNN corresponde a uma unica
+pessoa (P3), que nao aparece nas colunas 1 e 2 (`data/pessoas.csv`). O split agrupado
+por articulador e, portanto, independente de pessoa, e os numeros acima continuam
+validos.

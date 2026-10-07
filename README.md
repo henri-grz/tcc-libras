@@ -3,7 +3,8 @@
 Codigo do Trabalho de Conclusao de Curso de Henri André Grzegozeski (Bacharelado em Ciencia da
 Computacao). Reproduz o pipeline de Prestes (2024), investiga se os resultados
 relatados se mantem sob um protocolo de avaliacao sem vazamento de dados, e reavalia o
-problema sob um protocolo independente de sinalizador (leave-one-signer-out).
+problema sob um protocolo independente de sinalizador (nenhuma pessoa do teste aparece
+no treino).
 
 O diagnostico do trabalho original, com evidencia de codigo, esta em
 `docs/00_diagnostico_baseline.md`. Os conceitos usados (generalizacao, vazamento,
@@ -39,7 +40,8 @@ e opcional para quem so quer reproduzir os experimentos.
 ```bash
 # 1. Coloque os videos em data/videos/ com nomes "Sinal_Articulador.mov"
 #    exemplo: Abacaxi_1.mov, Abacaxi_2.mov, Abacaxi_3.mov, Abraco_1.mov, ...
-#    O articulador e indispensavel: e o que permite o protocolo LOSO.
+#    O numero e a coluna "Articulador" do site da V-LIBRASIL, nao a pessoa
+#    (ver "Convencao de nome dos videos"). Ele define os folds do exp05 e do exp06.
 
 # 2. Extraia os landmarks. Roda UMA VEZ e alimenta todos os experimentos.
 make extract
@@ -62,7 +64,7 @@ Cada experimento grava um JSON em `results/` mais a matriz de confusao em PNG.
 | `exp02_rotulos_aleatorios` | Com rotulos sorteados, a acuracia continua alta? Se sim, e vazamento |
 | `exp03_ponto_unico` | Um classificador que ve UM ponto 3D chega perto do baseline? Se sim, a LSTM nao contribui |
 | `exp04_split_agrupado` | Mesma representacao e mesmo modelo, mudando so o split. Quanto cai? |
-| `exp05_pipeline_corrigido_loso` | Qual e o desempenho sob leave-one-signer-out? |
+| `exp05_pipeline_corrigido_loso` | Qual e o desempenho em sinalizadores que o modelo nunca viu? |
 | `exp06_ablacao_features` | Os landmarks de pose agregam sobre os de mao? |
 
 `exp01` a `exp04` formam a reproducao e os controles. `exp05` e o resultado principal.
@@ -81,7 +83,8 @@ protocolo de treino do `exp05` e do `exp06` (ver `docs/04_revisao_protocolo_exp0
   vetor final.
 - **Normalizacao invariante:** origem no ponto medio dos ombros, escala pela distancia
   entre ombros, aplicada por frame antes de qualquer padronizacao estatistica.
-- **Split sempre agrupado por video**; para o resultado principal, leave-one-signer-out.
+- **Split sempre agrupado por video**; para o resultado principal, por sinalizador: 3
+  folds, um por coluna da V-LIBRASIL, sem nenhuma pessoa do teste no treino.
 - **Epocas fixas definidas a priori no exp05 e no exp06**, sem validacao. A primeira
   rodada usava early stopping na loss de validacao e parou na epoca 1 em todas as
   execucoes. A revisao e a evidencia estao em `docs/04_revisao_protocolo_exp05.md`, e o
@@ -96,6 +99,7 @@ protocolo de treino do `exp05` e do `exp06` (ver `docs/04_revisao_protocolo_exp0
 ```
 configs/default.yaml      toda a configuracao, inclusive os parametros do baseline
 data/cache/               landmarks extraidos (um .npz por video) e metadata.csv
+data/pessoas.csv          mapeamento anonimo video -> pessoa (P1 a P5)
 docs/
   00_diagnostico_baseline.md   pontos do trabalho original com evidencia de codigo
   02_glossario_tecnico.md      conceitos com os numeros medidos neste dataset
@@ -107,7 +111,7 @@ src/
   landmarks_spec.py       vetor de features por frame, normalizacao, reamostragem
   extract_landmarks.py    MediaPipe Holistic, roda uma vez, gera o cache
   dataset.py              dataset corrigido (uma amostra = um video)
-  splits.py               split agrupado e leave-one-signer-out
+  splits.py               split agrupado por video e por sinalizador
   models.py               LSTMOriginal (replica fiel) e versoes corrigidas
   train.py                laco de treino com early stopping na validacao
   evaluate.py             metricas com nomes corretos, matriz de confusao
@@ -131,6 +135,13 @@ nao casam com o padrao, ou cujo sinal nao esta na lista de classes, sao listados
 ignorados na extracao. Confira essa lista: e a defesa contra o problema de rotulagem
 descrito em `docs/00_diagnostico_baseline.md` (C3).
 
+O numero depois do sinal e a coluna "Articulador 1/2/3" do site da V-LIBRASIL. **A
+coluna nao identifica a pessoa**: nos 33 videos ha 5 pessoas, e o mapeamento anonimo
+video -> pessoa (P1 a P5), feito por inspecao visual, esta em `data/pessoas.csv`. Cada
+pessoa aparece em uma unica coluna, entao deixar uma coluna de fora nunca coloca no
+teste uma pessoa vista no treino. O teste `test_folds_por_coluna_nao_compartilham_pessoas`
+verifica isso.
+
 ## O que este codigo deliberadamente NAO corrige
 
 `src/baseline_original.py` e `src/models.py::LSTMOriginal` reproduzem o pipeline
@@ -140,7 +151,7 @@ de comparacao. Nao "melhore" esses trechos: sem eles nao ha com o que comparar.
 ## Dados
 
 Os videos utilizados sao da base **V-LIBRASIL** (RODRIGUES, 2021), 11 sinais x 3
-articuladores. Conforme os termos de uso da base, os videos **nao** sao redistribuidos
+gravacoes, feitas por 5 pessoas. Conforme os termos de uso da base, os videos **nao** sao redistribuidos
 neste repositorio e devem ser obtidos diretamente em <https://libras.cin.ufpe.br>.
 
 Este repositorio disponibiliza apenas os landmarks derivados (coordenadas extraidas com

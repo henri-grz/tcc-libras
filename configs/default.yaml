@@ -5,6 +5,9 @@ paths:
   videos: data/videos
   cache: data/cache
   results: results
+  # Mapeamento anonimo video -> pessoa. A coluna "articulador" do nome do arquivo
+  # nao identifica a pessoa (ver README, "Convencao de nome dos videos").
+  pessoas: data/pessoas.csv
 
 # Os 11 sinais do trabalho original. Mantidos iguais para comparabilidade direta com o baseline.
 classes:

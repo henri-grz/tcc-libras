@@ -2,7 +2,8 @@
 
 O baseline usava `train_test_split` com shuffle no nivel do ponto, o que coloca pontos
 do mesmo frame e do mesmo video em treino e teste ao mesmo tempo. Aqui todo split e
-agrupado por video, e o protocolo principal e leave-one-signer-out.
+agrupado por video, e o protocolo principal agrupa por sinalizador (um fold por coluna
+da V-LIBRASIL).
 """
 
 from __future__ import annotations
@@ -83,11 +84,13 @@ def loso_folds(
     val_size: float = 0.2,
     seed: int = 42,
 ) -> list[Split]:
-    """Leave-one-signer-out. Um fold por articulador.
+    """Um fold por coluna de articulador da V-LIBRASIL (agrupado por sinalizador).
 
-    Este e o protocolo correto para reconhecimento de sinais: o modelo e testado em um
-    sinalizador que nunca viu. A V-Librasil tem 3 articuladores por sinal, logo 3 folds.
-    O baseline nao fazia nada disso (falha S10).
+    Testa o modelo em sinalizadores que nao aparecem no treino. A coluna nao e a pessoa:
+    os 33 videos tem 5 pessoas (`data/pessoas.csv`), mas cada pessoa aparece em uma
+    unica coluna, entao cada fold deixa de fora uma ou duas pessoas inteiras. O teste
+    `test_folds_por_coluna_nao_compartilham_pessoas` garante isso. O baseline nao fazia
+    nada disso (falha S10).
     """
     folds: list[Split] = []
     for signer in sorted(set(signers.tolist())):

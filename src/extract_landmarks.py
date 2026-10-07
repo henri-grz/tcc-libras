@@ -36,7 +36,7 @@ def parse_filename(name: str, pattern: str) -> tuple[str | None, str | None]:
     """Extrai (sinal, articulador) do nome do arquivo.
 
     Substitui o `arq.split()[0]` do baseline, que era fragil e nao capturava o
-    articulador (informacao indispensavel para o protocolo leave-one-signer-out).
+    articulador, isto e, a coluna da V-LIBRASIL, que define os folds por sinalizador.
     """
     m = re.match(pattern, name)
     if not m:

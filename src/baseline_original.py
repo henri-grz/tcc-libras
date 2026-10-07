@@ -11,10 +11,11 @@ Replicado:
 - `train_test_split` com shuffle no nivel do ponto (falha C2.2)
 - `create_sequences` com janela deslizante de 200 e rotulo do ultimo ponto (falha C2.3)
 
-Diferenca deliberada: os dados vem do cache `.npz`, nao dos JSON agregados. O bug de
-rotulagem C3 do Apendice A nao e reproduzido, porque reproduzi-lo tornaria impossivel
-saber qual e o rotulo verdadeiro de cada amostra. Isso e conservador: favorece o
-baseline, e ainda assim ele nao se sustenta.
+Diferenca deliberada: os dados vem do cache `.npz`, nao dos JSON agregados. O descarte
+de videos da falha C3 (Apendice A) nao e reproduzido: aqui entram os 33 videos. No
+ambiente do autor, a C3 deixava 2 videos por sinal, com rotulos corretos por causa da
+listagem alfabetica, mas quais videos sobravam depende de nomes de arquivo que o
+trabalho nao informa. Ver docs/00_diagnostico_baseline.md, C3.
 """
 
 from __future__ import annotations

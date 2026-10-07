@@ -39,18 +39,19 @@ medir capacidade e passa a medir memoria.
 O trabalho nunca decidiu o que era "um exemplo". Na pratica tratou **cada ponto 3D
 solto** como exemplo independente.
 
-Um frame de video gera de 42 a 63 landmarks. O codigo juntou os 489.129 pontos dos
-33 videos numa tabela unica, **embaralhou**, e separou 10% para teste. Para um frame
-qualquer do video `Casa_1`:
+Um frame de video gera 33, 54 ou 75 landmarks: os 33 da pose, mais 21 por mao
+detectada. No cache deste projeto, 81,5% dos frames tem 75 e a media e 70,4. O codigo
+juntou os 489.129 pontos dos 33 videos numa tabela unica, **embaralhou**, e separou 10%
+para teste. Para um frame qualquer do video `Casa_1`:
 
 ```
-frame t do video Casa_1  ->  63 pontos
+frame t do video Casa_1  ->  75 pontos
        embaralha e corta 10%
-       ~57 pontos vao para TREINO  (rotulados "Casa")
-       ~6  pontos vao para TESTE   (rotulados "Casa")
+       ~67 pontos vao para TREINO  (rotulados "Casa")
+       ~8  pontos vao para TESTE   (rotulados "Casa")
 ```
 
-Na hora do teste o modelo recebe um ponto e precisa dizer o sinal. Os outros ~57
+Na hora do teste o modelo recebe um ponto e precisa dizer o sinal. Os outros ~67
 pontos **do mesmo instante do mesmo video** estao no treino, com a resposta colada.
 
 ### Quanto vazou, medido
@@ -79,7 +80,7 @@ kNN sobre um unico ponto 3D (ver Apendice A), variando so o split:
 | classificador | split | acuracia |
 |---|---|---|
 | kNN k=1, 1 ponto 3D | embaralhado no ponto (Prestes) | **64,79%** |
-| kNN k=1, 1 ponto 3D | articulador segurado fora (correto) | **11,82%** |
+| kNN k=1, 1 ponto 3D | sinalizador segurado fora (coluna 3, pessoa P3) | **11,82%** |
 | acaso | --- | 9,09% |
 
 O protocolo original entrega ~65% de graca, antes de qualquer modelo entrar em campo.
@@ -162,7 +163,15 @@ Prestes tratou um **ponto 3D** como exemplo. A unidade certa e o **video**: e el
 tem um rotulo verdadeiro, um comeco e um fim.
 
 Para reconhecimento de sinais existe uma unidade ainda mais exigente, que e o
-protocolo do exp05: o **articulador**. Treinar com 2 pessoas e testar na terceira.
+protocolo do exp05: o **sinalizador**. Treinar com algumas pessoas e testar em outras,
+que nunca apareceram no treino.
+
+Na V-LIBRASIL, cada sinal tem 3 gravacoes, nas colunas "Articulador 1/2/3" do site.
+A coluna nao e a pessoa: os 33 videos tem 5 pessoas, P1 a P5, mapeadas em
+`data/pessoas.csv`. Mas cada pessoa aparece em uma unica coluna (coluna 1: P1 e P5;
+coluna 2: P2 e P4; coluna 3: P3). Por isso, deixar uma coluna de fora deixa de fora
+pessoas que nunca aparecem no treino, e os 3 folds por coluna sao independentes de
+sinalizador.
 O objetivo nao e reconhecer *o Fulano fazendo "Casa"*, e reconhecer *"Casa"* feito por
 qualquer pessoa.
 
@@ -171,15 +180,15 @@ A queda entre protocolos e o resultado do TCC:
 | protocolo | acuracia (kNN, 1 ponto) |
 |---|---|
 | Ponto embaralhado (Prestes) | 64,79% |
-| Articulador segurado fora (correto) | 11,82% |
+| Sinalizador segurado fora (coluna 3, P3) | 11,82% |
 | Acaso | 9,09% |
 
 Com a representacao de Prestes (um ponto solto), o numero honesto e praticamente o
 acaso. E **mais dados nao movem essa linha**: de 8.000 a 329.448 pontos ela fica plana
 em ~12%. Decoreba escala. Entendimento, nessa representacao, nao existe para escalar.
 
-Com a representacao corrigida (um video = uma amostra) e o mesmo protocolo de
-articulador segurado fora, o exp05 chega a 24,24% +- 9,09 (protocolo revisado, ver
+Com a representacao corrigida (um video = uma amostra) e o mesmo principio de
+sinalizador segurado fora, o exp05 chega a 24,24% +- 9,09 (protocolo revisado, ver
 `04_revisao_protocolo_exp05.md`): acima do acaso, mas longe dos 70,76% publicados e no
 mesmo nivel de um 1-NN sem treino (30,30% a 33,33%).
 
@@ -226,7 +235,7 @@ modelo parametrico.
 ## Apendice B. Origem de cada numero
 
 Nenhum numero deste documento veio de literatura. Todos foram medidos no cache de
-landmarks deste projeto (33 videos, 11 sinais, 3 articuladores, 489.129 pontos).
+landmarks deste projeto (33 videos, 11 sinais, 3 gravacoes por sinal feitas por 5 pessoas, 489.129 pontos).
 
 | numero | origem |
 |---|---|

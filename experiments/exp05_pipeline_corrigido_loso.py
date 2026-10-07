@@ -1,4 +1,4 @@
-"""EXP05 - Pipeline corrigido avaliado com leave-one-signer-out.
+"""EXP05 - Pipeline corrigido avaliado em sinalizadores fora do treino.
 
 Este e o resultado principal do TCC: o numero honesto.
 
@@ -82,7 +82,7 @@ def main() -> None:
     device = get_device(prefer_cuda=not args.cpu)
 
     banner(
-        "EXP05 - pipeline corrigido, leave-one-signer-out",
+        "EXP05 - pipeline corrigido, folds por sinalizador",
         f"resultado principal do TCC | protocolo de treino: {protocolo}",
     )
 

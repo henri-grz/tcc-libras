@@ -49,8 +49,9 @@ X_train_seq, y_train_seq = create_sequences(X_train, y_train, sequence_length)  
 1. `StandardScaler` ajustado no dataset completo. Media e desvio do conjunto de teste
    entram no pre-processamento.
 2. `train_test_split` com `shuffle=True` por padrao, aplicado a **pontos**, nao a videos
-   nem a frames. Cada frame contribui de 42 a 63 pontos, logo praticamente todo frame do
-   teste tem irmaos no treino. Sem `stratify`, tambem.
+   nem a frames. Cada frame contribui com 33, 54 ou 75 pontos (os 33 da pose, mais 21
+   por mao detectada; no cache deste projeto, 81,5% dos frames tem 75 e a media e 70,4),
+   logo praticamente todo frame do teste tem irmaos no treino. Sem `stratify`, tambem.
 3. As sequencias sao criadas DEPOIS do split, deslizando janela sobre o array ja
    embaralhado. Em `create_sequences`:
 
@@ -61,7 +62,7 @@ label = labels[i + sequence_length - 1]  # rotulo do ultimo ponto da janela
 Cada "sequencia temporal" e um conjunto de coordenadas de classes diferentes, e o rotulo
 e o da ultima linha. Nao existe ordem temporal no tensor.
 
-### C3. Bug de rotulagem na geracao dos arquivos JSON
+### C3. Descarte silencioso de videos na geracao dos arquivos JSON
 
 Local: `processa()`, Apendice A, p. 50.
 
@@ -74,16 +75,34 @@ if cont == 2:                       # <- a condicao e dois, nao tres
         json.dump(todos_dados, arquivo, indent=2)
 ```
 
-Quatro problemas:
+**Correcao registrada em 07/10/2026.** A versao anterior desta secao dizia que os JSON
+finais misturavam frames de sinais diferentes, com indicio de rotulos trocados. Isso nao
+se sustenta. O `processa()` do Apendice A foi executado literalmente, trocando so a
+leitura do video, e a logica foi conferida por simulacao: a mistura so existe em
+arquivos intermediarios, sobrescritos logo em seguida. O defeito real e o descarte de
+videos.
 
-- O comentario diz tres, a condicao e dois. Com 3 videos por sinal no experimento 1
-  (7 sinais, 21 videos), os arquivos sao cortados a cada 2 videos, entao cada JSON
-  contem frames de sinais diferentes e o ultimo video nunca e salvo.
+Como funciona, com todos os videos em uma pasta plana listada por `os.listdir`:
+
+- O comentario diz tres, a condicao e dois. A cada 2 videos o JSON e gravado com o
+  nome `classes[num]`, e a lista acumulada e o contador recomecam. Um arquivo com o
+  mesmo nome e sobrescrito.
+- O par que atravessa a fronteira entre dois sinais e gravado com o nome do segundo
+  sinal e, logo depois, sobrescrito pelo par seguinte desse mesmo sinal. Um video que
+  sobra sozinho no fim nunca e gravado.
+- Resultado: cada sinal termina com exatamente 2 videos. No Experimento 1 (7 sinais x 3
+  videos da V-LIBRASIL) sobram 14 de 21: um terco e descartado. No Experimento 2, cada
+  sinal recebeu um quarto video, do acervo do INES (Lira e Souza, 1997), e sobram 22 de
+  44: metade e descartada. Quais videos sobram depende do que vinha depois do nome do
+  sinal no nome do arquivo, e o trabalho nao informa.
+- Os rotulos so ficam corretos por causa da ordem de listagem. `classes` e a lista
+  ordenada do sinal de cada arquivo (com duplicatas), e `num` e a posicao do arquivo em
+  `os.listdir`. As duas coincidem quando a listagem e alfabetica, como no NTFS do
+  Windows usado pelo autor. Em um sistema de arquivos que nao lista em ordem alfabetica,
+  cerca de 90% dos videos salvos ficariam com rotulo errado (simulacao com ordem
+  aleatoria).
 - `todos_dados.extend(...)` concatena frames de videos distintos sem separador. Nao ha
   como recuperar onde um video termina e o proximo comeca.
-- O nome do arquivo vem de `classes[num]`, com `num` sendo o indice de
-  `enumerate(os.listdir(caminho))` sobre a pasta plana de videos. Nao ha correspondencia
-  garantida entre esse indice e a classe.
 - A lista `classes` e construida de forma inconsistente entre os apendices:
   `sorted(clas_Arq)` no Apendice A (com duplicatas) e `sorted(set(clas_Arq))` no
   Apendice B (sem duplicatas). As duas listas tem tamanhos diferentes.
@@ -99,6 +118,10 @@ for arq in os.listdir(pasta_json):
 
 Assume que a ordem de `os.listdir` coincide com a ordem alfabetica das classes, o que
 nao e garantido pelo sistema de arquivos.
+
+Consequencia para a reproducao: o exp01 usa os 33 videos da V-LIBRASIL e nao replica o
+descarte. O Experimento 2 original foi treinado e testado com 22 videos (2 por sinal),
+possivelmente incluindo videos do INES, que nao estao disponiveis aqui.
 
 ---
 
@@ -131,11 +154,11 @@ nao e garantido pelo sistema de arquivos.
 
 | Falha | Experimento que a evidencia |
 |---|---|
-| C1 | `exp03_ponto_unico.py` mostra que um classificador sobre um unico ponto 3D chega perto do baseline, logo o modelo temporal nao contribui |
+| C1 | Curva de controle kNN: com um unico ponto 3D, o kNN supera a LSTM no mesmo split (64,79% contra 54,99%), e as janelas nao tem ordem temporal. O MLP do `exp03_ponto_unico.py` fica abaixo da LSTM (35,25%) e, sozinho, nao prova C1 (ver docs/02, secao 3) |
 | C2 | `exp02_rotulos_aleatorios.py` embaralha os rotulos no nivel do video e roda o pipeline original. Acuracia alta com rotulos aleatorios e prova de vazamento |
 | C2 | `exp04_split_agrupado.py` mantem modelo e representacao originais e apenas troca o split para agrupado por video. A queda mede o vazamento |
 | C1 + C2 | `exp05_pipeline_corrigido_loso.py` da o numero honesto |
-| C3 | Corrigido na origem por `src/extract_landmarks.py`, que derruba a etapa de JSON agregado e usa um arquivo por video com metadados explicitos |
+| C3 | Corrigido na origem por `src/extract_landmarks.py`, que derruba a etapa de JSON agregado e usa um arquivo por video com metadados explicitos. O descarte de videos nao e replicado no exp01, que usa os 33 videos |
 | S1 a S8 | Documentados no capitulo de analise, corrigidos em `src/models.py` e `src/train.py` |
-| S10 | 3 seeds e leave-one-signer-out em `exp05` |
+| S10 | 3 seeds e validacao agrupada por sinalizador em `exp05`, sem nenhuma pessoa do teste no treino |
 | S18 | `exp03` funciona tambem como baseline trivial |

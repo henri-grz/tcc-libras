@@ -166,6 +166,31 @@ def test_fixed_epochs_keeps_final_weights() -> None:
     assert len(hist.train_loss) == 7
 
 
+def test_folds_por_coluna_nao_compartilham_pessoas() -> None:
+    """A coluna "articulador" nao e a pessoa (data/pessoas.csv). Os folds do exp05 so
+    sao independentes de sinalizador se nenhuma pessoa do teste aparecer no treino."""
+    from src.config import load_config
+    from src.dataset import load_metadata, load_pessoas
+
+    cfg = load_config()
+    pessoas = load_pessoas(cfg)
+    if pessoas is None or not cfg.metadata_csv.exists():
+        print("     (pulado: sem data/pessoas.csv ou sem cache)")
+        return
+    meta = load_metadata(cfg)
+    if not set(meta["video_id"]) <= set(pessoas):
+        print("     (pulado: cache nao corresponde ao mapeamento, ex.: sintetico)")
+        return
+    y = meta["sinal"].astype("category").cat.codes.to_numpy()
+    groups = meta["video_id"].to_numpy()
+    signers = meta["articulador"].astype(str).to_numpy()
+    pessoa = np.array([pessoas[v] for v in groups])
+    for fold in loso_folds(y, groups, signers, val_size=0.2, seed=42):
+        treino = np.concatenate([fold.train, fold.val])
+        comum = set(pessoa[fold.test]) & set(pessoa[treino])
+        assert not comum, f"{fold.name}: pessoas no treino e no teste: {sorted(comum)}"
+
+
 def test_filename_parser() -> None:
     pattern = r"^(?P<sinal>[A-Za-zÀ-ÿ]+)[ _-]+(?P<articulador>[0-9A-Za-z]+)"
     for name in ("Abacaxi 1", "Abacaxi_1", "Abacaxi-1"):

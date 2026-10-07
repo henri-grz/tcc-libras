@@ -129,3 +129,21 @@ mencionam, sem editar o texto registrado em 05/10/2026.
   `--protocolo original` (`results/exp05_pipeline_corrigido_loso_original.json`)
   reproduziu as 9 execucoes exatamente, entao o conteudo e o mesmo. O arquivo antigo
   continua no historico do git, no commit `bd80f1b`.
+
+## Identidade dos sinalizadores (07/10/2026)
+
+Esta secao nao muda o protocolo nem os resultados. Corrige a descricao.
+
+A coluna `articulador` (o numero no nome do arquivo, que vem da coluna "Articulador
+1/2/3" do site da V-LIBRASIL) nao identifica a pessoa. Por inspecao visual dos 33
+videos, feita pelo autor em 07/10/2026, ha 5 pessoas, mapeadas de forma anonima em
+`data/pessoas.csv` (P1: 7 videos, P2: 9, P3: 11, P4: 2, P5: 4). Nenhum sinal tem a
+mesma pessoa em mais de um video.
+
+Cada pessoa aparece em uma unica coluna (coluna 1: P1 e P5; coluna 2: P2 e P4;
+coluna 3: P3). Por isso, os 3 folds usados no exp05 e no exp06 ja eram independentes de
+sinalizador: em nenhum fold uma pessoa do teste aparece no treino. Nada foi rodado de
+novo. O que muda e o nome: o protocolo e uma validacao agrupada por sinalizador com 3
+folds, dois deles deixando de fora duas pessoas, e nao um "leave-one-signer-out"
+estrito com 3 sinalizadores. A garantia passa a ser verificada pelo teste
+`test_folds_por_coluna_nao_compartilham_pessoas`.

@@ -6,7 +6,7 @@ Esta e a correcao central. No baseline, uma amostra era um landmark individual e
     X: (N_videos, T, D)   com T fixo e D com layout determinado
     y: (N_videos,)
     groups:  video_id     -> usado para split agrupado
-    signers: articulador  -> usado para leave-one-signer-out
+    signers: articulador  -> coluna da V-LIBRASIL, usada nos folds por sinalizador
 """
 
 from __future__ import annotations
@@ -83,6 +83,18 @@ def load_metadata(cfg: Config) -> pd.DataFrame:
             "ou `python -m src.make_synthetic` primeiro."
         )
     return pd.read_csv(cfg.metadata_csv, dtype={"articulador": str})
+
+
+def load_pessoas(cfg: Config) -> dict[str, str] | None:
+    """Mapeamento anonimo video -> pessoa (P1 a P5), feito por inspecao visual.
+
+    A coluna `articulador` do nome do arquivo nao identifica a pessoa. Devolve None se o
+    arquivo nao existir.
+    """
+    if not cfg.pessoas_csv.exists():
+        return None
+    df = pd.read_csv(cfg.pessoas_csv, dtype=str)
+    return dict(zip(df["video_id"], df["pessoa"]))
 
 
 def load_video_arrays(cfg: Config, npz_rel: str) -> dict[str, np.ndarray]:
