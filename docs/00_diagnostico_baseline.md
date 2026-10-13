@@ -1,4 +1,4 @@
-# Diagnostico do baseline: Prestes (2024)
+# Diagnostico do pipeline original: Prestes (2024)
 
 Levantamento completo das falhas do trabalho original, com evidencia de codigo.
 Este documento e a materia-prima do capitulo de analise do TCC.
@@ -32,7 +32,7 @@ de qual landmark, qual mao ou qual frame cada coordenada representa. Configuraca
 e trajetoria, que sao os parametros linguisticos do sinal, nao estao representados no
 tensor de entrada.
 
-Representacao correta: 1 timestep = 1 frame = vetor concatenado de todos os landmarks
+Representacao adotada neste trabalho: 1 timestep = 1 frame = vetor concatenado de todos os landmarks
 em ordem fixa. Ver `src/landmarks_spec.py`.
 
 ### C2. Vazamento de dados em tres niveis empilhados
@@ -79,8 +79,8 @@ if cont == 2:                       # <- a condicao e dois, nao tres
 finais misturavam frames de sinais diferentes, com indicio de rotulos trocados. Isso nao
 se sustenta. O `processa()` do Apendice A foi executado literalmente, trocando so a
 leitura do video, e a logica foi conferida por simulacao: a mistura so existe em
-arquivos intermediarios, sobrescritos logo em seguida. O defeito real e o descarte de
-videos.
+arquivos intermediarios, sobrescritos logo em seguida. O problema real e o descarte
+de videos.
 
 Como funciona, com todos os videos em uma pasta plana listada por `os.listdir`:
 
@@ -107,7 +107,7 @@ Como funciona, com todos os videos em uma pasta plana listada por `os.listdir`:
   `sorted(clas_Arq)` no Apendice A (com duplicatas) e `sorted(set(clas_Arq))` no
   Apendice B (sem duplicatas). As duas listas tem tamanhos diferentes.
 
-Na leitura, agrava:
+Na leitura, a mesma dependencia da ordem de listagem aparece:
 
 ```python
 rotulo = 0
@@ -133,20 +133,20 @@ possivelmente incluindo videos do INES, que nao estao disponiveis aqui.
 | S2 | Arquitetura implementada diverge do Quadro 3 | `lstm2` e `bidirectional=True, num_layers=2`, o que o Quadro 3 nao menciona |
 | S3 | Ausencia de conjunto de validacao | `train_test_split` devolve apenas treino e teste. O teste e usado como reporte final |
 | S4 | Early stopping na loss de treino | `early_stopping(running_loss / len(train_loader))`. O texto (p. 32) afirma monitorar acuracia por 5 epocas |
-| S5 | Data augmentation e codigo morto | `aumentar_landmarks`, `gerar_ruido_normal` e `gerar_translacao` definidas (p. 58-59) e nunca chamadas em `principal()` |
-| S6 | Acuracia por classe e, na verdade, recall | A formula em `class_accuracy` e TP/(TP+FN). Verificavel: nos Quadros 4 e 5 as colunas "Acuracia" e "Recall" sao identicas em todas as linhas |
-| S7 | Script publicado nao treina | `carregarModelo = True` fixo (p. 62). Carrega um `.pth` que nao e fornecido |
+| S5 | Data augmentation definida e nao usada | `aumentar_landmarks`, `gerar_ruido_normal` e `gerar_translacao` definidas (p. 58-59) e nao chamadas em `principal()` |
+| S6 | A metrica por classe chamada de acuracia e o recall | A formula em `class_accuracy` e TP/(TP+FN). Verificavel: nos Quadros 4 e 5 as colunas "Acuracia" e "Recall" sao identicas em todas as linhas |
+| S7 | Script publicado carrega um modelo em vez de treinar | `carregarModelo = True` fixo (p. 62). O `.pth` carregado nao acompanha o trabalho |
 | S8 | Numero de epocas divergente | Texto afirma 150 epocas no experimento 1; o codigo tem `epochs = 200` |
-| S9 | Face declarada nos objetivos, nunca usada | `visibility` comentado (p. 49), nenhum landmark facial salvo no JSON. O objetivo geral (p. 13) menciona posicionamento de cabeca |
-| S10 | Sem rigor estatistico | Seed unico (42), execucao unica, sem validacao cruzada, sem intervalo de confianca, sem protocolo independente de sinalizador |
+| S9 | Face prevista nos objetivos e nao usada | `visibility` comentado (p. 49), nenhum landmark facial salvo no JSON. O objetivo geral (p. 13) menciona posicionamento de cabeca |
+| S10 | Execucao unica, sem estimativa de variancia | Seed unico (42), execucao unica, sem validacao cruzada, sem intervalo de confianca, sem protocolo independente de sinalizador |
 | S11 | Matriz de confusao nao apresentada | O codigo plota (p. 58), o texto nao apresenta nem analisa |
-| S12 | Modulo 3 sem implementacao | Figuras 9 e 10 preveem teste em tempo real. Sem codigo, sem experimento. O objetivo "prototipo validado" nao foi cumprido |
-| S13 | Queda no experimento 2 mal explicada | 82,83% para 70,76% justificado como "comum ao adicionar dados" (p. 39) |
-| S14 | Pre-processamento nao reprodutivel | Remocao da posicao neutra feita manualmente em editor de video, sem critério documentado (p. 29-30) |
-| S15 | Escala trivial | 7 e 11 classes contra 1364 termos da V-Librasil |
-| S16 | Sem requisitos nem versoes | Sem repositorio, sem `requirements.txt`, sem versao de MediaPipe ou PyTorch, sem o dataset JSON |
+| S12 | Modulo 3 sem implementacao | Figuras 9 e 10 preveem teste em tempo real, mas o trabalho nao traz codigo nem experimento desse modulo. O objetivo "prototipo validado" fica sem avaliacao |
+| S13 | Queda no experimento 2 sem analise de causa | A queda de 82,83% para 70,76% e atribuida a algo "comum ao adicionar dados" (p. 39), sem analise adicional |
+| S14 | Pre-processamento manual | Remocao da posicao neutra feita manualmente em editor de video, sem criterio documentado (p. 29-30), o que impede reproduzir o corte |
+| S15 | Escala pequena | 7 e 11 classes contra 1364 termos da V-Librasil |
+| S16 | Dependencias e versoes nao informadas | Sem repositorio, sem `requirements.txt`, sem versao de MediaPipe ou PyTorch, sem o dataset JSON |
 | S17 | `mp.solutions.holistic` legado | API depreciada em favor de MediaPipe Tasks. Versao usada nao reportada |
-| S18 | Ausencia de baseline trivial | Sem comparacao contra classificador simples, sem ablacao. Comparacao com trabalhos correlatos usa datasets e numeros de classes diferentes |
+| S18 | Ausencia de referencia trivial | Sem comparacao contra classificador simples, sem ablacao. Comparacao com trabalhos correlatos usa datasets e numeros de classes diferentes |
 
 ---
 
@@ -157,8 +157,35 @@ possivelmente incluindo videos do INES, que nao estao disponiveis aqui.
 | C1 | Curva de controle kNN: com um unico ponto 3D, o kNN supera a LSTM no mesmo split (64,79% contra 54,99%), e as janelas nao tem ordem temporal. O MLP do `exp03_ponto_unico.py` fica abaixo da LSTM (35,25%) e, sozinho, nao prova C1 (ver docs/02, secao 3) |
 | C2 | `exp02_rotulos_aleatorios.py` embaralha os rotulos no nivel do video e roda o pipeline original. Acuracia alta com rotulos aleatorios e prova de vazamento |
 | C2 | `exp04_split_agrupado.py` mantem modelo e representacao originais e apenas troca o split para agrupado por video. A queda mede o vazamento |
-| C1 + C2 | `exp05_pipeline_corrigido_loso.py` da o numero honesto |
+| C1 + C2 | `exp05_pipeline_corrigido_loso.py` da o desempenho sem vazamento |
 | C3 | Corrigido na origem por `src/extract_landmarks.py`, que derruba a etapa de JSON agregado e usa um arquivo por video com metadados explicitos. O descarte de videos nao e replicado no exp01, que usa os 33 videos |
 | S1 a S8 | Documentados no capitulo de analise, corrigidos em `src/models.py` e `src/train.py` |
 | S10 | 3 seeds e validacao agrupada por sinalizador em `exp05`, sem nenhuma pessoa do teste no treino |
-| S18 | `exp03` funciona tambem como baseline trivial |
+| S18 | `exp03` funciona tambem como referencia trivial |
+
+---
+
+## Nota de 07/10/2026: duas diferencas da reproducao em relacao ao Apendice B
+
+Duas diferencas entre a reproducao do pipeline original (`src/baseline_original.py`)
+e o codigo do Apendice B, identificadas em 07/10/2026:
+
+- **Pesos finais.** As primeiras rodadas de 11 sinais restauraram os pesos da melhor
+  epoca da loss de treino. O codigo de Prestes (p. 55) so interrompe o laco e fica com
+  os pesos da ultima epoca, 5 epocas depois da melhor.
+- **Ordem dos pontos.** As primeiras rodadas de 11 sinais empilharam, para cada video,
+  todos os frames da mao esquerda, depois da direita e depois da pose. O original
+  (p. 60-61) percorre frame a frame: em cada frame, as maos e depois a pose.
+
+Efeito nas primeiras rodadas de 11 sinais:
+
+- a ordem dos pontos, em media, nao afeta exp01, exp02, exp03 e a curva kNN, porque os
+  pontos sao os mesmos e sao embaralhados antes do janelamento. Pode afetar o exp04, que
+  nao embaralha, porque a ordem muda o conteudo das janelas;
+- os pesos finais mudam o modelo avaliado no exp01, no exp02 e no exp04 (melhor epoca
+  em vez da ultima, a ate 5 epocas de distancia). O efeito nao foi medido.
+
+As duas configuracoes passaram a usar a ordem e os pesos do original
+(`baseline_original.pesos_finais: ultima_epoca` e `ordem_pontos: por_frame`), e as
+rodadas de 11 sinais do pipeline original sao refeitas. As primeiras rodadas estao em
+`results/obsoleto/` e nao sao usadas no TCC. Ver `docs/05_protocolo_experimento1.md`.

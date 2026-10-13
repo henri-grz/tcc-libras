@@ -1,6 +1,6 @@
 """EXP05 - Pipeline corrigido avaliado em sinalizadores fora do treino.
 
-Este e o resultado principal do TCC: o numero honesto.
+Este e o resultado principal do TCC: o desempenho medido sem vazamento de dados.
 
 Correcoes aplicadas:
 - amostra = video, sequencia = frames, vetor por frame com layout fixo (C1)
@@ -140,9 +140,13 @@ def main() -> None:
                     f"{f'treino={len(tr_idx)} val={len(val_idx)} teste={len(fold.test)}':<34} "
                     f"acc={metrics['accuracy'] * 100:6.2f}%  "
                     f"f1_macro={metrics['f1_macro'] * 100:6.2f}%  "
-                    f"epocas={hist.stopped_epoch + 1}"
+                    f"epocas={hist.stopped_epoch + 1}  "
+                    f"acc_treino_final={hist.train_acc[-1] * 100:6.2f}%"
                 )
-                runs.append({"seed": seed, "fold": fold.name, **metrics})
+                runs.append({
+                    "seed": seed, "fold": fold.name,
+                    "train_acc_final": float(hist.train_acc[-1]), **metrics,
+                })
                 if first_cm is None:
                     first_cm = metrics["confusion_matrix"]
 

@@ -1,9 +1,9 @@
-"""Modelos. Inclui a replica fiel do baseline e as versoes corrigidas.
+"""Modelos. Inclui a replica fiel do modelo do pipeline original e as versoes corrigidas.
 
-`LSTMOriginal` reproduz exatamente a classe do Apendice B, inclusive os defeitos:
+`LSTMOriginal` reproduz exatamente a classe do Apendice B, inclusive dois pontos do diagnostico:
 `dropout=0.3` com `num_layers=1` (que o PyTorch ignora, falha S1) e a camada `lstm2`
 bidirecional com duas camadas internas, que o Quadro 3 do trabalho nao menciona
-(falha S2). Nao corrigir nada aqui: esta classe existe para reproduzir o baseline.
+(falha S2). Nao corrigir nada aqui: esta classe existe para reproduzir o pipeline original.
 """
 
 from __future__ import annotations
@@ -15,7 +15,7 @@ import torch.nn as nn
 class LSTMOriginal(nn.Module):
     """Replica fiel da arquitetura de Prestes (2024), Apendice B, p. 52-53.
 
-    Mantida com os defeitos originais para permitir a reproducao. Ver `LSTMCorrected`
+    Mantida exatamente como no original para permitir a reproducao. Ver `LSTMCorrected`
     para a versao com dropout efetivo.
     """
 
@@ -92,9 +92,9 @@ class LSTMCorrected(nn.Module):
 class SinglePointMLP(nn.Module):
     """Classificador sobre um unico ponto 3D. Usado pelo exp03.
 
-    Serve de baseline trivial e de teste da falha C1: se este modelo chegar perto da
-    acuracia relatada pelo baseline, entao a modelagem temporal da LSTM nao contribui,
-    e o numero publicado mede classificacao estatica de nuvem de pontos com vazamento.
+    Serve de referencia trivial e de teste da falha C1: se este modelo chegar perto da
+    acuracia do pipeline original, a modelagem temporal da LSTM nao esta contribuindo,
+    e o numero medido reflete classificacao estatica de nuvem de pontos com vazamento.
     """
 
     def __init__(self, input_size: int, num_classes: int, hidden: int = 64):

@@ -1,4 +1,4 @@
-"""Fixacao de seed. Corrige a falha S10 do baseline (execucao unica, seed unico)."""
+"""Fixacao de seed. Corrige a falha S10 do pipeline original (execucao unica, seed unico)."""
 
 from __future__ import annotations
 

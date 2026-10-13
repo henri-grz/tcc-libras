@@ -1,21 +1,28 @@
-"""EXP01 - Reproducao fiel do baseline de Prestes (2024).
+"""EXP01 - Reproducao fiel do pipeline original de Prestes (2024).
 
-Objetivo: obter, com o pipeline original preservado, uma acuracia proxima dos 82,83%
-(7 sinais) ou 70,76% (11 sinais) relatados no trabalho.
+Objetivo: obter, com o pipeline original preservado, uma acuracia proxima da relatada
+no trabalho:
+- 82,83% com `--config configs/7sinais.yaml` (Experimento 1, 7 sinais)
+- 70,76% com a configuracao padrao (Experimento 2, 11 sinais)
 
 Nada aqui e corrigido. O experimento reproduz:
 - amostra = landmark individual, input_size = 3
 - StandardScaler no dataset completo antes do split
 - train_test_split com shuffle no nivel do ponto
 - sequencias criadas depois do split, janela de 200, rotulo do ultimo ponto
-- LSTMOriginal com os defeitos de dropout
+- LSTMOriginal com o dropout como implementado no original (falha S1)
 - early stopping na loss de TREINO, paciencia 5
+
+Com `--c3`, usa so os videos que sobrevivem a falha C3 (variante B do
+docs/05_protocolo_experimento1.md). Sem a flag, usa todos os videos (variante A).
 
 Este e o numero que os experimentos 02 a 04 reavaliam sob controles de vazamento.
 
 Uso:
     python -m experiments.exp01_reproduzir_baseline --smoke
     python -m experiments.exp01_reproduzir_baseline
+    python -m experiments.exp01_reproduzir_baseline --config configs/7sinais.yaml
+    python -m experiments.exp01_reproduzir_baseline --config configs/7sinais.yaml --c3
 """
 
 from __future__ import annotations
@@ -27,8 +34,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from experiments._common import banner, base_parser  # noqa: E402
 
-from src.baseline_original import build_pointlevel, leaky_pipeline
+from src.baseline_original import (
+    build_pointlevel,
+    leaky_pipeline,
+    restaurar_melhor_epoca,
+    sobreviventes_c3,
+)
 from src.config import load_config
+from src.dataset import load_metadata
 from src.evaluate import compute_metrics, plot_confusion_matrix, print_summary, save_result
 from src.models import build_model, count_parameters
 from src.seeding import set_seed
@@ -41,10 +54,14 @@ def main() -> None:
     ap = base_parser(__doc__.splitlines()[0])
     ap.add_argument("--max-sequences", type=int, default=None,
                     help="sobrepoe reproducao.max_sequences do YAML")
+    ap.add_argument("--c3", action="store_true",
+                    help="usa so os videos que sobrevivem a falha C3, ver docs/05")
     args = ap.parse_args()
 
     cfg = load_config(args.config)
     bo = cfg.baseline_original
+    run_name = NAME + ("_c3" if args.c3 else "")
+    restore_best = restaurar_melhor_epoca(bo)
     seed = int(bo["random_state"])
     set_seed(seed)
 
@@ -54,11 +71,16 @@ def main() -> None:
     )
 
     banner(
-        "EXP01 - reproducao fiel do baseline",
+        "EXP01 - reproducao fiel do pipeline original",
         "pipeline original preservado, incluindo as falhas C1, C2.1, C2.2, C2.3, S1, S4",
     )
 
-    pld = build_pointlevel(cfg)
+    video_ids = None
+    if args.c3:
+        video_ids = sobreviventes_c3(load_metadata(cfg)["video_id"].tolist())
+        print(f"videos que sobrevivem a C3 ({len(video_ids)}): {', '.join(video_ids)}\n")
+
+    pld = build_pointlevel(cfg, video_ids=video_ids)
     print(pld.describe())
 
     X_tr, y_tr, X_te, y_te = leaky_pipeline(
@@ -69,7 +91,7 @@ def main() -> None:
         max_sequences=max_seq,
     )
     print(f"\nsequencias de treino: {X_tr.shape}, teste: {X_te.shape}")
-    print(f"input_size do baseline: {X_tr.shape[2]}  <- so x, y, z (falha C1)")
+    print(f"input_size do pipeline original: {X_tr.shape[2]}  <- so x, y, z (falha C1)")
 
     model = build_model("lstm_original", input_size=X_tr.shape[2], num_classes=len(pld.class_names))
     print(f"parametros: {count_parameters(model):,}")
@@ -85,6 +107,7 @@ def main() -> None:
         patience=int(bo["early_stopping_patience"]),
         monitor="train_loss",
         device=get_device(prefer_cuda=not args.cpu),
+        restore_best=restore_best,
     )
 
     y_pred = predict(model, X_te, device=get_device(prefer_cuda=not args.cpu))
@@ -94,19 +117,25 @@ def main() -> None:
     plot_confusion_matrix(
         metrics["confusion_matrix"],
         pld.class_names,
-        cfg.results_dir / f"{NAME}_confusao.png",
-        title="EXP01 baseline original",
+        cfg.results_dir / f"{run_name}_confusao.png",
+        title="EXP01 pipeline original",
     )
     save_result(
-        NAME,
+        run_name,
         {
             "descricao": "reproducao fiel do pipeline de Prestes (2024), sem correcoes",
             "falhas_replicadas": ["C1", "C2.1", "C2.2", "C2.3", "S1", "S2", "S3", "S4"],
             "config": {
+                "variante": "c3_14_videos" if args.c3 else "todos_os_videos",
+                "videos": sorted(set(pld.groups.tolist())),
+                "classes": pld.class_names,
                 "sequence_length": int(bo["sequence_length"]),
                 "test_size": float(bo["test_size"]),
                 "random_state": seed,
                 "epochs": epochs,
+                "early_stopping_patience": int(bo["early_stopping_patience"]),
+                "pesos_finais": "melhor_epoca" if restore_best else "ultima_epoca",
+                "ordem_pontos": bo.get("ordem_pontos", "por_frame"),
                 "max_sequences": max_seq,
                 "input_size": int(X_tr.shape[2]),
             },

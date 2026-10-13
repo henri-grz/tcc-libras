@@ -1,6 +1,6 @@
 """Construcao do dataset corrigido: uma amostra = um video.
 
-Esta e a correcao central. No baseline, uma amostra era um landmark individual e a
+Esta e a correcao central. No pipeline original, uma amostra era um landmark individual e a
 "sequencia" era uma janela deslizante sobre um array embaralhado. Aqui:
 
     X: (N_videos, T, D)   com T fixo e D com layout determinado
@@ -82,7 +82,10 @@ def load_metadata(cfg: Config) -> pd.DataFrame:
             f"{cfg.metadata_csv} nao existe. Rode `python -m src.extract_landmarks` "
             "ou `python -m src.make_synthetic` primeiro."
         )
-    return pd.read_csv(cfg.metadata_csv, dtype={"articulador": str})
+    meta = pd.read_csv(cfg.metadata_csv, dtype={"articulador": str})
+    # O cache tem os 11 sinais. Cada configuracao usa so os sinais de `classes`
+    # (configs/7sinais.yaml: os 7 do Experimento 1 de Prestes).
+    return meta[meta["sinal"].isin(cfg.classes)].reset_index(drop=True)
 
 
 def load_pessoas(cfg: Config) -> dict[str, str] | None:
@@ -151,8 +154,8 @@ def standardize(
 ) -> tuple[np.ndarray, ...]:
     """Padroniza por feature usando estatisticas SO do treino.
 
-    Corrige a falha C2, item 1: o baseline chamava `scaler.fit_transform(X)` no
-    dataset completo antes do split, vazando media e desvio do teste.
+    Corrige a falha C2, item 1: o pipeline original chamava `scaler.fit_transform(X)`
+    no dataset completo antes do split, vazando media e desvio do teste.
 
     Args:
         train: (N, T, D).

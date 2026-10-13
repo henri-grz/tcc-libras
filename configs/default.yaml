@@ -9,7 +9,7 @@ paths:
   # nao identifica a pessoa (ver README, "Convencao de nome dos videos").
   pessoas: data/pessoas.csv
 
-# Os 11 sinais do trabalho original. Mantidos iguais para comparabilidade direta com o baseline.
+# Os 11 sinais do trabalho original. Mantidos iguais para comparabilidade direta com o pipeline original.
 classes:
   - Abacaxi
   - Abraco
@@ -64,7 +64,7 @@ training:
   val_size: 0.2
 
 # Parametros do pipeline ORIGINAL, replicados fielmente para o exp01.
-# Nao "corrigir" nada aqui: este bloco existe para reproduzir o baseline.
+# Nao "corrigir" nada aqui: este bloco existe para reproduzir o pipeline original.
 baseline_original:
   sequence_length: 200
   test_size: 0.1
@@ -73,6 +73,10 @@ baseline_original:
   batch_size: 32
   learning_rate: 0.001
   early_stopping_patience: 5
+  pesos_finais: ultima_epoca   # Apendice B, p. 55: o early stopping so interrompe
+  ordem_pontos: por_frame      # Apendice B, p. 60-61: maos e pose de cada frame
+  # As rodadas de 11 sinais anteriores a 13/10/2026 (results/obsoleto/) usaram
+  # melhor_epoca e por_video. Ver docs/05.
 
 # Subamostragem da reproducao. 0 desativa (fidelidade total ao original, que gera
 # uma janela por ponto: 440.016 janelas de treino com este dataset).

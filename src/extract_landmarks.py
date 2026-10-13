@@ -1,6 +1,6 @@
 """Extracao de landmarks com MediaPipe Holistic. Roda UMA VEZ sobre os videos.
 
-Correcoes em relacao ao baseline:
+Correcoes em relacao ao pipeline original:
 
 - Um arquivo `.npz` por video, nunca JSON agregado. Isso elimina a falha C3, em que
   frames de videos diferentes eram concatenados com `extend()` e o nome do arquivo
@@ -10,7 +10,7 @@ Correcoes em relacao ao baseline:
 - Landmark ausente e gravado como NaN, nao omitido. Isso preserva o alinhamento
   posicional e permite os flags de presenca.
 - Mao esquerda e direita ficam em arrays separados, nunca no mesmo slot.
-- `visibility` da pose e gravado (o baseline comentou essa linha).
+- `visibility` da pose e gravado (no pipeline original essa linha esta comentada).
 
 Uso:
     python -m src.extract_landmarks
@@ -35,8 +35,8 @@ VIDEO_EXTENSIONS = {".mov", ".mp4", ".avi", ".mkv", ".webm", ".m4v"}
 def parse_filename(name: str, pattern: str) -> tuple[str | None, str | None]:
     """Extrai (sinal, articulador) do nome do arquivo.
 
-    Substitui o `arq.split()[0]` do baseline, que era fragil e nao capturava o
-    articulador, isto e, a coluna da V-LIBRASIL, que define os folds por sinalizador.
+    Substitui o `arq.split()[0]` do pipeline original, que depende do formato exato do
+    nome e nao captura o articulador, isto e, a coluna da V-LIBRASIL, que define os folds por sinalizador.
     """
     m = re.match(pattern, name)
     if not m:

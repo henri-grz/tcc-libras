@@ -1,6 +1,6 @@
 """Metricas e persistencia de resultados.
 
-Correcao da falha S6: o baseline reportava, na coluna "Acuracia por classe", a formula
+Correcao da falha S6: o pipeline original reportava, na coluna "Acuracia por classe", a formula
 TP/(TP+FN), que e recall. Nos Quadros 4 e 5 do trabalho original as colunas "Acuracia" e
 "Recall" sao identicas em todas as linhas por causa disso. Aqui cada metrica por classe
 e reportada com o nome correto, e nao existe "acuracia por classe".
@@ -41,7 +41,7 @@ def compute_metrics(
     return {
         "n_test": int(len(y_true)),
         "accuracy": float(accuracy_score(y_true, y_pred)),
-        # Acuracia balanceada e a metrica honesta com classes desbalanceadas.
+        # Acuracia balanceada e a metrica adequada com classes desbalanceadas.
         "balanced_accuracy": float(balanced_accuracy_score(y_true, y_pred)),
         "chance_level": float(1.0 / max(len(class_names), 1)),
         "precision_macro": float(macro[0]),
@@ -68,7 +68,7 @@ def compute_metrics(
 def aggregate_runs(runs: list[dict[str, Any]], keys: tuple[str, ...] = ()) -> dict[str, Any]:
     """Media e desvio padrao de varias execucoes (folds ou seeds).
 
-    Correcao da falha S10: o baseline reportava uma unica execucao com seed unico.
+    Correcao da falha S10: o pipeline original reportava uma unica execucao com seed unico.
     """
     keys = keys or (
         "accuracy",
@@ -110,7 +110,7 @@ def plot_confusion_matrix(
 ) -> Path | None:
     """Salva a matriz de confusao como PNG.
 
-    Correcao da falha S11: o baseline plotava mas nunca apresentou no texto.
+    Correcao da falha S11: o pipeline original gera a matriz, mas o texto nao a apresenta.
     """
     try:
         import matplotlib

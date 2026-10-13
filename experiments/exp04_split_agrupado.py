@@ -25,7 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from experiments._common import banner, base_parser  # noqa: E402
 
-from src.baseline_original import grouped_pipeline
+from src.baseline_original import grouped_pipeline, restaurar_melhor_epoca
 from src.config import load_config
 from src.dataset import load_metadata
 from src.evaluate import compute_metrics, plot_confusion_matrix, print_summary, save_result
@@ -46,6 +46,7 @@ def main() -> None:
 
     cfg = load_config(args.config)
     bo = cfg.baseline_original
+    restore_best = restaurar_melhor_epoca(bo)
     epochs = 3 if args.smoke else int(bo["epochs"])
     max_seq = 600 if args.smoke else (
         args.max_sequences if args.max_sequences is not None else int(cfg.reproducao["max_sequences"])
@@ -53,7 +54,7 @@ def main() -> None:
     seeds = args.seeds[:1] if args.smoke else args.seeds
 
     banner(
-        "EXP04 - representacao do baseline com split agrupado por video",
+        "EXP04 - representacao do pipeline original com split agrupado por video",
         "a queda em relacao ao exp01 mede o vazamento, porque so o split mudou",
     )
 
@@ -93,6 +94,7 @@ def main() -> None:
             learning_rate=float(bo["learning_rate"]),
             patience=int(bo["early_stopping_patience"]),
             monitor="train_loss", device=device, verbose=False,
+            restore_best=restore_best,
         )
 
         metrics = compute_metrics(y_te, predict(model, X_te, device=device), class_names)
@@ -106,18 +108,10 @@ def main() -> None:
     accs = np.array([r["accuracy"] for r in runs])
     print_summary(runs[0], "EXP04 detalhe da primeira seed")
 
-    # Compara com o exp01, se ele ja foi rodado. O ponto de operacao e o dataset
-    # completo (docs/03), salvo com o sufixo _completo.
-    exp01_path = next(
-        (
-            p for p in (
-                cfg.results_dir / "exp01_reproduzir_baseline_completo.json",
-                cfg.results_dir / "exp01_reproduzir_baseline.json",
-            )
-            if p.exists()
-        ),
-        None,
-    )
+    # Compara com o exp01 (variante com todos os videos), se ele ja foi rodado.
+    exp01_path = cfg.results_dir / "exp01_reproduzir_baseline.json"
+    if not exp01_path.exists():
+        exp01_path = None
     delta = None
     if exp01_path is not None:
         with open(exp01_path, encoding="utf-8") as f:
@@ -136,9 +130,11 @@ def main() -> None:
     save_result(
         NAME,
         {
-            "descricao": "representacao do baseline com split agrupado por video",
+            "descricao": "representacao do pipeline original com split agrupado por video",
             "unica_variavel_alterada": "split e escopo da padronizacao",
             "smoke": bool(args.smoke),
+            "pesos_finais": "melhor_epoca" if restore_best else "ultima_epoca",
+            "ordem_pontos": bo.get("ordem_pontos", "por_frame"),
             "accuracy_mean": float(accs.mean()),
             "accuracy_std": float(accs.std(ddof=1)) if len(accs) > 1 else 0.0,
             "chance_level": float(runs[0]["chance_level"]),

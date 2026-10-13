@@ -1,6 +1,6 @@
 """Especificacao do vetor de features por frame.
 
-Este modulo e a correcao da falha C1 do baseline. No trabalho original, cada landmark
+Este modulo e a correcao da falha C1 do pipeline original. Nele, cada landmark
 individual era uma amostra e `input_size` valia 3, o que impede o modelo de saber qual
 ponto esta olhando. Aqui, um frame vira um vetor de tamanho fixo com posicoes
 determinadas: cada landmark sempre ocupa o mesmo par de indices, e mao ausente e
@@ -100,7 +100,7 @@ def anchor_and_scale(pose: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     Origem: ponto medio dos ombros. Escala: distancia entre ombros, com fallback
     para o comprimento do torso e, em ultimo caso, 1.0. Isso torna a representacao
     invariante a posicao do sinalizador no quadro e a distancia da camera, o que o
-    baseline nao fazia (ele aplicava z-score global sobre coordenadas de imagem).
+    pipeline original nao fazia (aplicava z-score global sobre coordenadas de imagem).
 
     Args:
         pose: array (F, 33, 3), com NaN onde nao houve deteccao.

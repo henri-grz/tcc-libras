@@ -6,10 +6,11 @@ operacao. Qualquer alteracao posterior deve ser datada e justificada abaixo.
 
 ## Motivacao
 
-A reproducao inicial do baseline (`exp01` com `max_sequences = 8.000`) obteve 13,375%
-de acuracia de teste contra 70,76% relatados por Prestes (2024), com 90,7% de acuracia
-de TREINO. O diagnostico e subajuste por subamostragem: 8.000 janelas sao 1,8% das
-440.216 que o pipeline original geraria a partir dos 489.129 pontos do dataset.
+A reproducao inicial do pipeline original (`exp01` com `max_sequences = 8.000`)
+obteve 13,375% de acuracia de teste contra 70,76% relatados por Prestes (2024), com
+90,7% de acuracia de TREINO. O diagnostico e subajuste por subamostragem: 8.000 janelas
+sao 1,8% das 440.216 que o pipeline original geraria a partir dos 489.129 pontos do
+dataset.
 
 O vazamento em si foi confirmado independentemente do modelo, por kNN sobre um unico
 ponto 3D: 65,2% com o split embaralhado no nivel do ponto contra 12,3% com split
@@ -41,7 +42,7 @@ perseguir ruido de seed unica.
 
 Em paralelo, kNN (k=1 e k=5) sobre um unico ponto 3D, variando o tamanho do conjunto
 de treino na mesma escala. Serve de teto de memorizacao: indica quanto da acuracia
-e recuperavel por decoreba pura da nuvem de pontos, sem nenhum modelo temporal.
+e recuperavel por memorizacao pura da nuvem de pontos, sem nenhum modelo temporal.
 A curva da LSTM e lida contra essa referencia.
 
 ## O que a curva mede
@@ -64,6 +65,10 @@ acima, adota-se o ponto de fidelidade total, sem subamostragem
 
 Referencia de controle no mesmo ponto: kNN (k=1) sobre um unico ponto 3D chega a
 64,79% com o split embaralhado e a 11,83% com split agrupado por articulador.
+
+Os arquivos dessas rodadas estao em `results/obsoleto/`. Elas usaram os pesos da melhor
+epoca e a ordem dos pontos por video; o exp01 sem subamostragem e refeito com os do
+original (`05_protocolo_experimento1.md`). O ponto de operacao adotado aqui nao muda.
 
 ## Nota sobre o split por articulador (07/10/2026)
 

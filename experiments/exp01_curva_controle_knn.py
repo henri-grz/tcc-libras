@@ -9,7 +9,7 @@ cada janela de 200 pontos carrega exatamente um rotulo (o do ultimo ponto), logo
 janelas equivalem a N pontos rotulados. A comparacao e direta.
 
 Dois splits, mesma grade:
-- embaralhado no nivel do ponto, como o baseline (falhas C2.1 e C2.2)
+- embaralhado no nivel do ponto, como o pipeline original (falhas C2.1 e C2.2)
 - agrupado por articulador, sem vazamento
 
 A distancia entre as duas curvas e a medida do vazamento, isolada de qualquer escolha
@@ -67,7 +67,7 @@ def main() -> None:
     print(pld.describe())
     rng = np.random.RandomState(seed)
 
-    # --- split embaralhado no ponto, como o baseline -------------------------
+    # --- split embaralhado no ponto, como o pipeline original ----------------
     tr_leak, te_leak = leaky_pointlevel_split(
         len(pld.X), float(cfg.baseline_original["test_size"]), seed
     )
@@ -83,7 +83,7 @@ def main() -> None:
     X_grp = sc.transform(pld.X).astype(np.float32)
 
     cenarios = {
-        "embaralhado_no_ponto": (X_leak, tr_leak, te_leak, "split do baseline (C2.2)"),
+        "embaralhado_no_ponto": (X_leak, tr_leak, te_leak, "split do pipeline original (C2.2)"),
         "agrupado_por_articulador": (X_grp, tr_grp, te_grp, f"holdout articulador {holdout}"),
     }
 

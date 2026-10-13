@@ -6,6 +6,13 @@ relatados se mantem sob um protocolo de avaliacao sem vazamento de dados, e reav
 problema sob um protocolo independente de sinalizador (nenhuma pessoa do teste aparece
 no treino).
 
+Reproduz os dois experimentos de Prestes, cada um com os proprios sinais:
+
+- **7 sinais e 21 videos (Experimento 1, 82,83%):** `--config configs/7sinais.yaml`,
+  resultados em `results/7sinais/`;
+- **11 sinais e 33 videos (Experimento 2, 70,76%, sem os videos do INES):**
+  configuracao padrao, resultados em `results/`.
+
 O diagnostico do trabalho original, com evidencia de codigo, esta em
 `docs/00_diagnostico_baseline.md`. Os conceitos usados (generalizacao, vazamento,
 unidade de analise) estao em `docs/02_glossario_tecnico.md`.
@@ -46,7 +53,7 @@ e opcional para quem so quer reproduzir os experimentos.
 # 2. Extraia os landmarks. Roda UMA VEZ e alimenta todos os experimentos.
 make extract
 
-# 3. Reproducao do baseline e experimentos-controle
+# 3. Reproducao do pipeline original e experimentos-controle
 make controles
 
 # 4. Resultado principal e ablacao
@@ -56,13 +63,38 @@ make exp06
 
 Cada experimento grava um JSON em `results/` mais a matriz de confusao em PNG.
 
+## Duas configuracoes
+
+| Configuracao | Comparada com | Parametro | Resultados |
+|---|---|---|---|
+| 7 sinais, 21 videos | Experimento 1 de Prestes (82,83%) | `--config configs/7sinais.yaml` | `results/7sinais/` |
+| 11 sinais, 33 videos | Experimento 2 de Prestes (70,76%), sem os videos do INES | nenhum (`configs/default.yaml`) | `results/` |
+
+Todo experimento aceita `--config`. Rodadas de 7 sinais (PowerShell):
+
+```powershell
+$C = "configs/7sinais.yaml"
+python -m experiments.exp05_pipeline_corrigido_loso --config $C --models lstm_corrected
+python -m experiments.exp06_ablacao_features --config $C
+python -m experiments.exp01_reproduzir_baseline --config $C
+python -m experiments.exp01_reproduzir_baseline --config $C --c3
+python -m experiments.exp04_split_agrupado --config $C
+python -m experiments.exp02_rotulos_aleatorios --config $C
+python -m experiments.exp03_ponto_unico --config $C
+python -m experiments.exp01_curva_controle_knn --config $C
+python -m experiments.diag_exp05 --config $C
+```
+
+`--c3` roda o exp01 so com os 14 videos que sobrevivem a falha C3. Protocolo, variantes
+e criterios de leitura em `docs/05_protocolo_experimento1.md`.
+
 ## Os experimentos
 
 | Script | Pergunta que responde |
 |---|---|
-| `exp01_reproduzir_baseline` | O pipeline original reproduz os 70,76% relatados para os 11 sinais? |
+| `exp01_reproduzir_baseline` | O pipeline original reproduz os 82,83% (7 sinais) e os 70,76% (11 sinais) relatados? |
 | `exp02_rotulos_aleatorios` | Com rotulos sorteados, a acuracia continua alta? Se sim, e vazamento |
-| `exp03_ponto_unico` | Um classificador que ve UM ponto 3D chega perto do baseline? Se sim, a LSTM nao contribui |
+| `exp03_ponto_unico` | Um classificador que ve UM ponto 3D chega perto do pipeline original? Se sim, a LSTM nao esta contribuindo |
 | `exp04_split_agrupado` | Mesma representacao e mesmo modelo, mudando so o split. Quanto cai? |
 | `exp05_pipeline_corrigido_loso` | Qual e o desempenho em sinalizadores que o modelo nunca viu? |
 | `exp06_ablacao_features` | Os landmarks de pose agregam sobre os de mao? |
@@ -76,9 +108,10 @@ protocolo de treino do `exp05` e do `exp06` (ver `docs/04_revisao_protocolo_exp0
 
 - **Uma amostra = um video.** Nunca por frame, nunca por landmark.
 - **Landmarks extraidos uma unica vez** para `data/cache/`. Todos os experimentos,
-  inclusive a reproducao do baseline, leem desse cache.
-- **Sem corte manual da posicao neutra**, que nao era reprodutivel. Substituido por
-  reamostragem temporal automatica para T frames fixos.
+  inclusive a reproducao do pipeline original, leem desse cache.
+- **Sem corte manual da posicao neutra**, feito a mao no trabalho original e sem
+  criterio documentado. Substituido por reamostragem temporal automatica para T frames
+  fixos.
 - **NaN explicito para landmark ausente**, convertido em zero mais flag de presenca no
   vetor final.
 - **Normalizacao invariante:** origem no ponto medio dos ombros, escala pela distancia
@@ -92,12 +125,15 @@ protocolo de treino do `exp05` e do `exp06` (ver `docs/04_revisao_protocolo_exp0
 - **Metricas com o nome correto.** Recall nunca e reportado como acuracia.
 - **Seeds fixadas** por `src/seeding.py`; resultado principal e media de 3 seeds com
   desvio padrao.
-- **Os mesmos 11 sinais do trabalho original**, para comparabilidade direta.
+- **Os mesmos sinais do trabalho original**, para comparabilidade direta: os 7 do
+  Experimento 1 e os 11 do Experimento 2, cada configuracao comparada com o experimento
+  de Prestes que tem os mesmos sinais.
 
 ## Estrutura
 
 ```
-configs/default.yaml      toda a configuracao, inclusive os parametros do baseline
+configs/default.yaml      toda a configuracao, inclusive a do pipeline original (11 sinais)
+configs/7sinais.yaml      configuracao do Experimento 1 (7 sinais)
 data/cache/               landmarks extraidos (um .npz por video) e metadata.csv
 data/pessoas.csv          mapeamento anonimo video -> pessoa (P1 a P5)
 docs/
@@ -105,6 +141,7 @@ docs/
   02_glossario_tecnico.md      conceitos com os numeros medidos neste dataset
   03_protocolo_curva_exp01.md  regra do ponto de operacao do exp01, definida a priori
   04_revisao_protocolo_exp05.md  revisao do protocolo de treino do exp05 e do exp06
+  05_protocolo_experimento1.md   protocolo das rodadas de 7 sinais, definido a priori
 src/
   config.py               carregamento de configuracao
   seeding.py              fixacao de seed
@@ -119,7 +156,9 @@ src/
   make_synthetic.py       cache falso para teste de fumaca
 experiments/              um script por experimento
 tests/test_pipeline.py    testes das partes que nao podem quebrar em silencio
-results/                  saidas em JSON e PNG
+results/                  saidas em JSON e PNG (11 sinais)
+results/7sinais/          saidas em JSON e PNG (7 sinais)
+results/obsoleto/         rodadas anteriores de 11 sinais, nao usadas (ver docs/05)
 ```
 
 ## Convencao de nome dos videos
@@ -145,7 +184,7 @@ verifica isso.
 ## O que este codigo deliberadamente NAO corrige
 
 `src/baseline_original.py` e `src/models.py::LSTMOriginal` reproduzem o pipeline
-original de proposito, inclusive nos pontos discutidos no diagnostico. Sao o baseline
+original de proposito, inclusive nos pontos discutidos no diagnostico. Sao a referencia
 de comparacao. Nao "melhore" esses trechos: sem eles nao ha com o que comparar.
 
 ## Dados

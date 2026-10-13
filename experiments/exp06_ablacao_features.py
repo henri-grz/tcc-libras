@@ -103,7 +103,7 @@ def main() -> None:
                 model = build_model(
                     args.model, input_size=subset.dim, num_classes=len(subset.class_names)
                 )
-                train_model(
+                hist = train_model(
                     model, X_tr, subset.y[tr_idx], X_val, subset.y[val_idx],
                     batch_size=int(tr_cfg["batch_size"]),
                     learning_rate=float(tr_cfg["learning_rate"]),
@@ -117,9 +117,13 @@ def main() -> None:
                 )
                 print(
                     f"  seed={seed} {fold.name:<22} acc={metrics['accuracy'] * 100:6.2f}%  "
-                    f"f1_macro={metrics['f1_macro'] * 100:6.2f}%"
+                    f"f1_macro={metrics['f1_macro'] * 100:6.2f}%  "
+                    f"acc_treino_final={hist.train_acc[-1] * 100:6.2f}%"
                 )
-                runs.append({"seed": seed, "fold": fold.name, **metrics})
+                runs.append({
+                    "seed": seed, "fold": fold.name,
+                    "train_acc_final": float(hist.train_acc[-1]), **metrics,
+                })
 
         agg = aggregate_runs(runs)
         print(

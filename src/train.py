@@ -1,7 +1,7 @@
 """Laco de treino com early stopping na validacao.
 
-Correcao das falhas S3 e S4: o baseline nao tinha conjunto de validacao e monitorava a
-loss de TREINO no early stopping. Aqui o monitor padrao e a loss de validacao e os
+Correcao das falhas S3 e S4: o pipeline original nao tinha conjunto de validacao e
+monitorava a loss de TREINO no early stopping. Aqui o monitor padrao e a loss de validacao e os
 melhores pesos sao restaurados no fim.
 
 O modo `monitor="train_loss"` existe apenas para reproduzir o comportamento original
@@ -86,17 +86,21 @@ def train_model(
     monitor: str = "val_loss",
     device: torch.device | None = None,
     verbose: bool = True,
+    restore_best: bool = True,
 ) -> History:
     """Treina o modelo e devolve o historico.
 
     Args:
         monitor: "val_loss" (early stopping na validacao), "train_loss" (comportamento
-            do baseline) ou "none" (epocas fixas, pesos finais, protocolo revisado).
+            do pipeline original) ou "none" (epocas fixas, pesos finais, protocolo
+            revisado).
         patience: epocas sem melhora antes de parar. Ignorado com monitor="none".
+        restore_best: com False, mantem os pesos da ultima epoca mesmo com early
+            stopping, como o codigo de Prestes (Apendice B, p. 55).
 
     Returns:
         History. Os pesos do modelo ficam nos melhores encontrados pelo monitor, ou nos
-        da ultima epoca com monitor="none".
+        da ultima epoca com monitor="none" ou restore_best=False.
     """
     if monitor not in {"val_loss", "train_loss", "none"}:
         raise ValueError(f"monitor desconhecido: {monitor}")
@@ -170,7 +174,7 @@ def train_model(
                 print(f"[early stopping] epoca {epoch + 1}, monitor={monitor}")
             break
 
-    if monitor != "none":
+    if monitor != "none" and restore_best:
         model.load_state_dict(best_state)
     if hist.stopped_epoch < 0:
         hist.stopped_epoch = epochs - 1

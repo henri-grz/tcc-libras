@@ -25,7 +25,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from experiments._common import banner, base_parser  # noqa: E402
 
-from src.baseline_original import build_pointlevel, leaky_pipeline, random_label_permutation
+from src.baseline_original import (
+    build_pointlevel,
+    leaky_pipeline,
+    random_label_permutation,
+    restaurar_melhor_epoca,
+)
 from src.config import load_config
 from src.evaluate import compute_metrics, print_summary, save_result
 from src.models import build_model
@@ -44,6 +49,7 @@ def main() -> None:
 
     cfg = load_config(args.config)
     bo = cfg.baseline_original
+    restore_best = restaurar_melhor_epoca(bo)
     epochs = 3 if args.smoke else int(bo["epochs"])
     max_seq = 600 if args.smoke else (
         args.max_sequences if args.max_sequences is not None else int(cfg.reproducao["max_sequences"])
@@ -87,6 +93,7 @@ def main() -> None:
             monitor="train_loss",
             device=device,
             verbose=False,
+            restore_best=restore_best,
         )
 
         y_pred = predict(model, X_te, device=device)
@@ -125,6 +132,8 @@ def main() -> None:
             "descricao": "teste de randomizacao de rotulos no nivel do video, pipeline original",
             "hipotese": "acuracia acima do nivel de chance indica vazamento de dados",
             "smoke": bool(args.smoke),
+            "pesos_finais": "melhor_epoca" if restore_best else "ultima_epoca",
+            "ordem_pontos": bo.get("ordem_pontos", "por_frame"),
             "chance_level": chance,
             "accuracy_mean": float(accs.mean()),
             "accuracy_std": float(accs.std(ddof=1)) if len(accs) > 1 else 0.0,

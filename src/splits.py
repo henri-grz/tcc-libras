@@ -1,6 +1,6 @@
 """Particionamento dos dados. Correcao da falha C2, item 2.
 
-O baseline usava `train_test_split` com shuffle no nivel do ponto, o que coloca pontos
+O pipeline original usava `train_test_split` com shuffle no nivel do ponto, o que coloca pontos
 do mesmo frame e do mesmo video em treino e teste ao mesmo tempo. Aqui todo split e
 agrupado por video, e o protocolo principal agrupa por sinalizador (um fold por coluna
 da V-LIBRASIL).
@@ -62,7 +62,7 @@ def grouped_train_val_test(
 ) -> Split:
     """Tres conjuntos disjuntos por video.
 
-    O baseline nao tinha conjunto de validacao (falha S3) e fazia early stopping na
+    O pipeline original nao tinha conjunto de validacao (falha S3) e fazia early stopping na
     loss de treino (falha S4). Aqui a validacao existe e sai de dentro do treino.
     """
     train_pool, test_idx = grouped_split(y, groups, test_size=test_size, seed=seed)
@@ -89,8 +89,8 @@ def loso_folds(
     Testa o modelo em sinalizadores que nao aparecem no treino. A coluna nao e a pessoa:
     os 33 videos tem 5 pessoas (`data/pessoas.csv`), mas cada pessoa aparece em uma
     unica coluna, entao cada fold deixa de fora uma ou duas pessoas inteiras. O teste
-    `test_folds_por_coluna_nao_compartilham_pessoas` garante isso. O baseline nao fazia
-    nada disso (falha S10).
+    `test_folds_por_coluna_nao_compartilham_pessoas` garante isso. O pipeline original
+    nao avaliava em sinalizadores fora do treino (falha S10).
     """
     folds: list[Split] = []
     for signer in sorted(set(signers.tolist())):
@@ -135,7 +135,7 @@ def protocol_train_val(split: Split, protocolo: str) -> tuple[np.ndarray, np.nda
 def leaky_pointlevel_split(
     n_rows: int, test_size: float = 0.1, random_state: int = 42
 ) -> tuple[np.ndarray, np.ndarray]:
-    """Reproduz o split do baseline: shuffle no nivel do ponto.
+    """Reproduz o split do pipeline original: shuffle no nivel do ponto.
 
     NAO USAR em experimento corrigido. Existe apenas para reproduzir fielmente o
     trabalho original (exp01) e para medir o vazamento (exp02, exp03).
@@ -151,8 +151,8 @@ def assert_no_group_leakage(
 ) -> None:
     """Falha alto se algum grupo aparecer nos dois lados.
 
-    Chamar isso em todo experimento corrigido. E a salvaguarda contra a falha que
-    inviabilizou o trabalho original.
+    Chamar isso em todo experimento corrigido. E a salvaguarda contra o vazamento
+    de dados discutido no diagnostico (falha C2).
     """
     overlap = set(groups[train].tolist()) & set(groups[test].tolist())
     if overlap:

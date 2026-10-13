@@ -1,0 +1,86 @@
+# Configuracao do Experimento 1 de Prestes (2024): 7 sinais, 21 videos da V-LIBRASIL.
+# Sem --config, os experimentos usam configs/default.yaml (11 sinais, Experimento 2).
+# Protocolo em docs/05_protocolo_experimento1.md.
+# Difere de configs/default.yaml so nas chaves abaixo (garantido por teste):
+#   paths.results, classes, baseline_original.epochs
+
+paths:
+  videos: data/videos
+  cache: data/cache
+  results: results/7sinais     # as demais chaves de `paths` iguais ao default
+  # Mapeamento anonimo video -> pessoa. A coluna "articulador" do nome do arquivo
+  # nao identifica a pessoa (ver README, "Convencao de nome dos videos").
+  pessoas: data/pessoas.csv
+
+# Os 7 sinais do Experimento 1 do trabalho original (p. 29).
+classes:
+  - Abacaxi
+  - Abraco
+  - Cafe
+  - Casa
+  - Esperar
+  - Livro
+  - Oi
+
+extraction:
+  # Resolucao usada pelo trabalho original, mantida para comparabilidade.
+  frame_width: 1024
+  frame_height: 768
+  model_complexity: 1
+  min_detection_confidence: 0.5
+  min_tracking_confidence: 0.5
+  # Convencao de nome de arquivo. Aceita "Abacaxi_1.mov" ou "Abacaxi 1.mov".
+  # O grupo 1 e o sinal, o grupo 2 e o articulador.
+  filename_regex: '^(?P<sinal>[A-Za-zÀ-ÿ]+)[ _-]+(?P<articulador>[0-9A-Za-z]+)'
+
+features:
+  # Subconjunto de pose: parte superior do corpo, indices 0 a 24 do MediaPipe Pose.
+  # A face nao entra (ver trabalhos futuros).
+  pose_indices: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+  use_pose: true
+  use_hands: true
+  # Flags de presenca de cada mao, um bit por mao por frame.
+  use_presence_flags: true
+  # Normalizacao invariante: origem no ponto medio dos ombros, escala pela
+  # distancia entre ombros. Aplicada por frame.
+  normalize_anchor: true
+  # Reamostragem temporal para numero fixo de frames. Substitui o corte manual
+  # da posicao neutra do trabalho original.
+  sequence_length: 32
+
+training:
+  # 200 epocas do pipeline corrigido (docs/04), iguais nas duas configuracoes.
+  epochs: 200
+  batch_size: 16
+  learning_rate: 0.001
+  seeds: [42, 1337, 2024]
+  # Protocolo de treino do exp05 e do exp06. Revisado em 05/10/2026, ver
+  # docs/04_revisao_protocolo_exp05.md.
+  #   revisado: epocas fixas (epochs), sem validacao, pesos da ultima epoca
+  #   original: early stopping na loss de validacao (primeira rodada do exp05)
+  protocolo_loso: revisado
+  # Usados so pelo protocolo original
+  early_stopping_patience: 15
+  val_size: 0.2
+
+# Parametros do pipeline ORIGINAL, replicados fielmente para o exp01.
+# Nao "corrigir" nada aqui: este bloco existe para reproduzir o pipeline original.
+baseline_original:
+  sequence_length: 200
+  test_size: 0.1
+  random_state: 42
+  epochs: 150                  # Experimento 1 (p. 32). O Experimento 2 usou 200
+  batch_size: 32
+  learning_rate: 0.001
+  early_stopping_patience: 5
+  pesos_finais: ultima_epoca   # Apendice B, p. 55: o early stopping so interrompe
+  ordem_pontos: por_frame      # Apendice B, p. 60-61: maos e pose de cada frame
+
+# Subamostragem da reproducao. 0 desativa (fidelidade total ao original, que gera
+# uma janela por ponto). Sem curva nesta configuracao: com 11 sinais a curva nao
+# chegou a plato (docs/03), e com 7 sinais o conjunto completo e menor. Ver docs/05.
+reproducao:
+  # exp01, exp02, exp04: janelas deslizantes de 200 pontos
+  max_sequences: 0
+  # exp03: pontos 3D individuais
+  max_points: 0

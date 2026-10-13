@@ -168,27 +168,31 @@ def test_fixed_epochs_keeps_final_weights() -> None:
 
 def test_folds_por_coluna_nao_compartilham_pessoas() -> None:
     """A coluna "articulador" nao e a pessoa (data/pessoas.csv). Os folds do exp05 so
-    sao independentes de sinalizador se nenhuma pessoa do teste aparecer no treino."""
-    from src.config import load_config
+    sao independentes de sinalizador se nenhuma pessoa do teste aparecer no treino.
+    Verificado nas duas configuracoes: 11 sinais (default) e 7 sinais."""
+    from src.config import PROJECT_ROOT, load_config
     from src.dataset import load_metadata, load_pessoas
 
-    cfg = load_config()
-    pessoas = load_pessoas(cfg)
-    if pessoas is None or not cfg.metadata_csv.exists():
-        print("     (pulado: sem data/pessoas.csv ou sem cache)")
-        return
-    meta = load_metadata(cfg)
-    if not set(meta["video_id"]) <= set(pessoas):
-        print("     (pulado: cache nao corresponde ao mapeamento, ex.: sintetico)")
-        return
-    y = meta["sinal"].astype("category").cat.codes.to_numpy()
-    groups = meta["video_id"].to_numpy()
-    signers = meta["articulador"].astype(str).to_numpy()
-    pessoa = np.array([pessoas[v] for v in groups])
-    for fold in loso_folds(y, groups, signers, val_size=0.2, seed=42):
-        treino = np.concatenate([fold.train, fold.val])
-        comum = set(pessoa[fold.test]) & set(pessoa[treino])
-        assert not comum, f"{fold.name}: pessoas no treino e no teste: {sorted(comum)}"
+    for cfg_path in (None, PROJECT_ROOT / "configs" / "7sinais.yaml"):
+        cfg = load_config(cfg_path)
+        pessoas = load_pessoas(cfg)
+        if pessoas is None or not cfg.metadata_csv.exists():
+            print("     (pulado: sem data/pessoas.csv ou sem cache)")
+            return
+        meta = load_metadata(cfg)
+        if not set(meta["video_id"]) <= set(pessoas):
+            print("     (pulado: cache nao corresponde ao mapeamento, ex.: sintetico)")
+            return
+        if cfg_path is not None:
+            assert len(meta) == 21, f"7 sinais: esperados 21 videos, ha {len(meta)}"
+        y = meta["sinal"].astype("category").cat.codes.to_numpy()
+        groups = meta["video_id"].to_numpy()
+        signers = meta["articulador"].astype(str).to_numpy()
+        pessoa = np.array([pessoas[v] for v in groups])
+        for fold in loso_folds(y, groups, signers, val_size=0.2, seed=42):
+            treino = np.concatenate([fold.train, fold.val])
+            comum = set(pessoa[fold.test]) & set(pessoa[treino])
+            assert not comum, f"{fold.name}: pessoas no treino e no teste: {sorted(comum)}"
 
 
 def test_filename_parser() -> None:
@@ -196,6 +200,78 @@ def test_filename_parser() -> None:
     for name in ("Abacaxi 1", "Abacaxi_1", "Abacaxi-1"):
         assert parse_filename(name, pattern) == ("Abacaxi", "1")
     assert parse_filename("12345", pattern) == (None, None)
+
+def test_simulacao_c3() -> None:
+    from src.baseline_original import sobreviventes_c3
+
+    sete = ["Abacaxi", "Abraco", "Cafe", "Casa", "Esperar", "Livro", "Oi"]
+    ids = [f"{s}_{i}" for s in sete for i in (1, 2, 3)]
+    assert sobreviventes_c3(ids) == sorted([
+        "Abacaxi_1", "Abacaxi_2", "Abraco_2", "Abraco_3", "Cafe_1", "Cafe_2",
+        "Casa_2", "Casa_3", "Esperar_1", "Esperar_2", "Livro_2", "Livro_3",
+        "Oi_1", "Oi_2",
+    ])
+    onze = sete + ["Ano", "Escola", "Meia", "Ocupado"]
+    assert len(sobreviventes_c3([f"{s}_{i}" for s in onze for i in (1, 2, 3)])) == 22
+
+
+def test_ordem_dos_pontos_do_pipeline_original() -> None:
+    from src.baseline_original import pontos_do_video
+
+    vazio = np.full((2, 21, 3), np.nan, np.float32)
+    esq, dir_ = vazio.copy(), vazio.copy()
+    esq[0], dir_[1] = 1.0, 2.0  # mao esquerda so no frame 0, direita so no frame 1
+    pose = np.stack([np.full((33, 3), 3.0), np.full((33, 3), 4.0)]).astype(np.float32)
+    arrays = {"left_hand": esq, "right_hand": dir_, "pose": pose}
+    assert pontos_do_video(arrays, "por_frame")[:, 0].tolist() == (
+        [1.0] * 21 + [3.0] * 33 + [2.0] * 21 + [4.0] * 33
+    )
+    assert pontos_do_video(arrays, "por_video")[:, 0].tolist() == (
+        [1.0] * 21 + [2.0] * 21 + [3.0] * 33 + [4.0] * 33
+    )
+
+
+def test_pipeline_original_pode_manter_pesos_da_ultima_epoca() -> None:
+    """restore_best=False termina com os mesmos pesos que monitor="none"."""
+    import torch
+
+    from src.train import train_model
+
+    rng = np.random.RandomState(0)
+    X = rng.normal(size=(8, 4, 3)).astype(np.float32)
+    y = np.arange(8) % 2
+    finais = []
+    for kw in (
+        {"monitor": "none"},
+        {"monitor": "train_loss", "patience": 100, "restore_best": False},
+    ):
+        torch.manual_seed(0)
+        model = torch.nn.Sequential(torch.nn.Flatten(), torch.nn.Linear(12, 2))
+        train_model(model, X, y, epochs=5, device=torch.device("cpu"), verbose=False, **kw)
+        finais.append([p.detach().clone() for p in model.parameters()])
+    assert all(torch.equal(a, b) for a, b in zip(*finais))
+
+
+def test_config_7sinais_so_difere_no_previsto() -> None:
+    import yaml
+
+    from src.config import PROJECT_ROOT
+
+    def folhas(d: dict, pre: tuple = ()):
+        for k, v in d.items():
+            if isinstance(v, dict):
+                yield from folhas(v, pre + (k,))
+            else:
+                yield pre + (k,), v
+
+    def ler(nome: str) -> dict:
+        with open(PROJECT_ROOT / "configs" / nome, encoding="utf-8") as f:
+            return dict(folhas(yaml.safe_load(f)))
+
+    base, sete = ler("default.yaml"), ler("7sinais.yaml")
+    previstas = {("classes",), ("paths", "results"), ("baseline_original", "epochs")}
+    difs = {k for k in base.keys() | sete.keys() if base.get(k) != sete.get(k)}
+    assert difs <= previstas, f"diferencas nao previstas: {sorted(difs - previstas)}"
 
 
 if __name__ == "__main__":

@@ -1,16 +1,16 @@
-"""EXP03 - Classificador de ponto unico. Prova que a LSTM nao contribui.
+"""EXP03 - Classificador de ponto unico. Testa se a LSTM contribui.
 
 Logica do teste: um classificador que ve apenas UM ponto 3D (tres numeros) nao tem
 acesso a nenhuma informacao temporal, nem a configuracao de mao, nem a trajetoria.
-Se ele chegar perto da acuracia relatada pelo baseline, entao a modelagem temporal da
-LSTM nao esta contribuindo, e o numero publicado mede classificacao estatica de nuvem de
-pontos sob vazamento, nao reconhecimento de sinal isolado.
+Se ele chegar perto da acuracia do pipeline original, a modelagem temporal da LSTM nao
+esta contribuindo, e o numero medido reflete classificacao estatica de nuvem de pontos
+sob vazamento, e nao reconhecimento de sinal isolado.
 
-Rodam dois modelos, ambos sobre o mesmo split embaralhado do baseline:
-- regressao logistica (baseline trivial, treina em segundos)
+Rodam dois modelos, ambos sobre o mesmo split embaralhado do pipeline original:
+- regressao logistica (referencia trivial, treina em segundos)
 - MLP raso de duas camadas
 
-Serve tambem como o baseline trivial que o trabalho original nao tinha (falha S18).
+Serve tambem como a referencia trivial que o trabalho original nao inclui (falha S18).
 
 Uso:
     python -m experiments.exp03_ponto_unico --smoke
@@ -58,13 +58,13 @@ def main() -> None:
 
     banner(
         "EXP03 - classificador sobre um unico ponto 3D",
-        "se chegar perto do baseline, a modelagem temporal e irrelevante",
+        "se chegar perto do pipeline original, a modelagem temporal nao esta contribuindo",
     )
 
     pld = build_pointlevel(cfg)
     print(pld.describe())
 
-    # Mesmo pre-processamento e mesmo split embaralhado do baseline.
+    # Mesmo pre-processamento e mesmo split embaralhado do pipeline original.
     X = StandardScaler().fit_transform(pld.X).astype(np.float32)
     y = pld.y
     train_idx, test_idx = leaky_pointlevel_split(len(X), float(bo["test_size"]), seed)
@@ -114,15 +114,15 @@ def main() -> None:
     print(f"nivel de chance                       : {m_lr['chance_level'] * 100:.2f}%")
     print(
         "\nCompare com o resultado do exp01. Se os valores forem proximos, a conclusao e\n"
-        "que a arquitetura LSTM de quatro camadas do baseline nao agrega nada sobre um\n"
-        "classificador que ignora completamente o tempo."
+        "que, nesta representacao, a LSTM de quatro camadas do pipeline original nao\n"
+        "agrega sobre um classificador que nao usa informacao temporal."
     )
 
     save_result(
         NAME,
         {
-            "descricao": "classificacao a partir de um unico ponto 3D, split embaralhado do baseline",
-            "hipotese": "acuracia proxima do baseline indica que a LSTM nao contribui",
+            "descricao": "classificacao a partir de um unico ponto 3D, split embaralhado do pipeline original",
+            "hipotese": "acuracia proxima do pipeline original indica que a LSTM nao contribui",
             "smoke": bool(args.smoke),
             "n_train_points": int(len(X_tr)),
             "n_test_points": int(len(X_te)),
