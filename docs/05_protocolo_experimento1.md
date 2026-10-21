@@ -240,7 +240,21 @@ python -m experiments.diag_exp05 --config $C
 
 ## Alteracoes posteriores
 
-Nenhuma alteracao de protocolo ate o momento.
+### 20/10/2026: split no nivel do ponto identico ao `train_test_split`
+
+Registrado antes de rodar, com 7 sinais, o exp01 (todos os videos), o exp02, o exp03 e
+a curva kNN.
+
+`src/splits.py::leaky_pointlevel_split` arredondava o tamanho do teste para o inteiro
+mais proximo; o `train_test_split` usado por Prestes (Apendice B, p. 61) arredonda para
+cima. Com 7 sinais e todos os videos (293.733 pontos), isso colocava no treino 1 ponto
+que o original poria no teste. A funcao passa a chamar o proprio `train_test_split`.
+
+- Com 11 sinais e na variante B (`--c3`), a particao e identica antes e depois da
+  mudanca. Nenhum resultado ja rodado e afetado.
+- Com 7 sinais e todos os videos, as janelas passam a 264.159 de treino e 29.174 de
+  teste (a tabela "Ponto de operacao" registrava 264.160 e 29.173).
+- O teste `test_split_do_pipeline_original_igual_ao_de_prestes` garante a igualdade.
 
 ## Resultado
 

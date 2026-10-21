@@ -195,6 +195,20 @@ def test_folds_por_coluna_nao_compartilham_pessoas() -> None:
             assert not comum, f"{fold.name}: pessoas no treino e no teste: {sorted(comum)}"
 
 
+def test_split_do_pipeline_original_igual_ao_de_prestes() -> None:
+    """O split no nivel do ponto e o `train_test_split` do original (Apendice B, p. 61),
+    que arredonda o teste para cima: com 7 sinais (293.733 pontos), 29.374 no teste."""
+    from sklearn.model_selection import train_test_split
+
+    from src.splits import leaky_pointlevel_split
+
+    for n in (293_733, 182_166, 489_129):
+        tr, te = leaky_pointlevel_split(n, 0.1, 42)
+        sk_tr, sk_te = train_test_split(np.arange(n), test_size=0.1, random_state=42)
+        assert np.array_equal(tr, sk_tr) and np.array_equal(te, sk_te)
+    assert len(leaky_pointlevel_split(293_733, 0.1, 42)[1]) == 29_374
+
+
 def test_filename_parser() -> None:
     pattern = r"^(?P<sinal>[A-Za-zÀ-ÿ]+)[ _-]+(?P<articulador>[0-9A-Za-z]+)"
     for name in ("Abacaxi 1", "Abacaxi_1", "Abacaxi-1"):

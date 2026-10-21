@@ -11,7 +11,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
-from sklearn.model_selection import GroupShuffleSplit, StratifiedGroupKFold
+from sklearn.model_selection import GroupShuffleSplit, StratifiedGroupKFold, train_test_split
 
 
 @dataclass
@@ -137,13 +137,16 @@ def leaky_pointlevel_split(
 ) -> tuple[np.ndarray, np.ndarray]:
     """Reproduz o split do pipeline original: shuffle no nivel do ponto.
 
+    Chama o proprio `train_test_split` do original (Apendice B, p. 61) sobre os indices,
+    entao a particao e identica, inclusive no arredondamento do teste para cima.
+
     NAO USAR em experimento corrigido. Existe apenas para reproduzir fielmente o
     trabalho original (exp01) e para medir o vazamento (exp02, exp03).
     """
-    rng = np.random.RandomState(random_state)
-    idx = rng.permutation(n_rows)
-    n_test = int(round(n_rows * test_size))
-    return idx[n_test:], idx[:n_test]
+    train_idx, test_idx = train_test_split(
+        np.arange(n_rows), test_size=test_size, random_state=random_state
+    )
+    return train_idx, test_idx
 
 
 def assert_no_group_leakage(
