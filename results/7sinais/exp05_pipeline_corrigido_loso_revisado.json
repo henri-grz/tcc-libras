@@ -1,0 +1,1411 @@
+{
+  "experimento": "exp05_pipeline_corrigido_loso_revisado",
+  "timestamp": "2026-10-20T07:53:31",
+  "descricao": "pipeline corrigido avaliado com leave-one-signer-out",
+  "correcoes_aplicadas": [
+    "C1",
+    "C2.1",
+    "C2.2",
+    "C2.3",
+    "S1",
+    "S4",
+    "S6",
+    "S10",
+    "S11",
+    "S14"
+  ],
+  "smoke": false,
+  "protocolo": {
+    "treino": "revisado",
+    "parada": {
+      "epochs": 200,
+      "monitor": "none"
+    },
+    "revisao": "docs/04_revisao_protocolo_exp05.md",
+    "folds_loso": 3,
+    "seeds": [
+      42,
+      1337,
+      2024
+    ],
+    "epochs": 200,
+    "sequence_length": 32,
+    "feature_dim": 203,
+    "classes": [
+      "Abacaxi",
+      "Abraco",
+      "Cafe",
+      "Casa",
+      "Esperar",
+      "Livro",
+      "Oi"
+    ],
+    "articuladores": [
+      "1",
+      "2",
+      "3"
+    ]
+  },
+  "chance_level": 0.14285714285714285,
+  "melhor_modelo": "lstm_corrected",
+  "resultados": {
+    "lstm_corrected": {
+      "aggregate": {
+        "n_runs": 9,
+        "accuracy": {
+          "mean": 0.23809523809523808,
+          "std": 0.10101525445522107,
+          "values": [
+            0.14285714285714285,
+            0.2857142857142857,
+            0.2857142857142857,
+            0.14285714285714285,
+            0.2857142857142857,
+            0.14285714285714285,
+            0.14285714285714285,
+            0.42857142857142855,
+            0.2857142857142857
+          ]
+        },
+        "balanced_accuracy": {
+          "mean": 0.23809523809523808,
+          "std": 0.10101525445522107,
+          "values": [
+            0.14285714285714285,
+            0.2857142857142857,
+            0.2857142857142857,
+            0.14285714285714285,
+            0.2857142857142857,
+            0.14285714285714285,
+            0.14285714285714285,
+            0.42857142857142855,
+            0.2857142857142857
+          ]
+        },
+        "precision_macro": {
+          "mean": 0.11693121693121694,
+          "std": 0.09041699539459072,
+          "values": [
+            0.028571428571428574,
+            0.11904761904761904,
+            0.09523809523809523,
+            0.07142857142857142,
+            0.14285714285714285,
+            0.07142857142857142,
+            0.047619047619047616,
+            0.33333333333333337,
+            0.14285714285714285
+          ]
+        },
+        "recall_macro": {
+          "mean": 0.23809523809523808,
+          "std": 0.10101525445522107,
+          "values": [
+            0.14285714285714285,
+            0.2857142857142857,
+            0.2857142857142857,
+            0.14285714285714285,
+            0.2857142857142857,
+            0.14285714285714285,
+            0.14285714285714285,
+            0.42857142857142855,
+            0.2857142857142857
+          ]
+        },
+        "f1_macro": {
+          "mean": 0.15079365079365079,
+          "std": 0.09297916280841255,
+          "values": [
+            0.047619047619047616,
+            0.16666666666666666,
+            0.14285714285714285,
+            0.09523809523809523,
+            0.19047619047619047,
+            0.09523809523809523,
+            0.07142857142857142,
+            0.35714285714285715,
+            0.19047619047619047
+          ]
+        },
+        "f1_weighted": {
+          "mean": 0.15079365079365079,
+          "std": 0.09297916280841255,
+          "values": [
+            0.047619047619047616,
+            0.16666666666666666,
+            0.14285714285714285,
+            0.09523809523809523,
+            0.19047619047619047,
+            0.09523809523809523,
+            0.07142857142857142,
+            0.35714285714285715,
+            0.19047619047619047
+          ]
+        }
+      },
+      "n_params": 320007,
+      "runs": [
+        {
+          "seed": 42,
+          "fold": "loso(holdout=1)",
+          "train_acc_final": 1.0,
+          "n_test": 7,
+          "accuracy": 0.14285714285714285,
+          "balanced_accuracy": 0.14285714285714285,
+          "chance_level": 0.14285714285714285,
+          "precision_macro": 0.028571428571428574,
+          "recall_macro": 0.14285714285714285,
+          "f1_macro": 0.047619047619047616,
+          "precision_weighted": 0.028571428571428574,
+          "recall_weighted": 0.14285714285714285,
+          "f1_weighted": 0.047619047619047616,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.2,
+              "recall": 1.0,
+              "f1": 0.3333333333333333,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Cafe",
+            "Casa",
+            "Esperar",
+            "Livro",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 42,
+          "fold": "loso(holdout=2)",
+          "train_acc_final": 1.0,
+          "n_test": 7,
+          "accuracy": 0.2857142857142857,
+          "balanced_accuracy": 0.2857142857142857,
+          "chance_level": 0.14285714285714285,
+          "precision_macro": 0.11904761904761904,
+          "recall_macro": 0.2857142857142857,
+          "f1_macro": 0.16666666666666666,
+          "precision_weighted": 0.11904761904761904,
+          "recall_weighted": 0.2857142857142857,
+          "f1_weighted": 0.16666666666666666,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.3333333333333333,
+              "recall": 1.0,
+              "f1": 0.5,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.5,
+              "recall": 1.0,
+              "f1": 0.6666666666666666,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Cafe",
+            "Casa",
+            "Esperar",
+            "Livro",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 42,
+          "fold": "loso(holdout=3)",
+          "train_acc_final": 1.0,
+          "n_test": 7,
+          "accuracy": 0.2857142857142857,
+          "balanced_accuracy": 0.2857142857142857,
+          "chance_level": 0.14285714285714285,
+          "precision_macro": 0.09523809523809523,
+          "recall_macro": 0.2857142857142857,
+          "f1_macro": 0.14285714285714285,
+          "precision_weighted": 0.09523809523809523,
+          "recall_weighted": 0.2857142857142857,
+          "f1_weighted": 0.14285714285714285,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.3333333333333333,
+              "recall": 1.0,
+              "f1": 0.5,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.3333333333333333,
+              "recall": 1.0,
+              "f1": 0.5,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Cafe",
+            "Casa",
+            "Esperar",
+            "Livro",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 1337,
+          "fold": "loso(holdout=1)",
+          "train_acc_final": 1.0,
+          "n_test": 7,
+          "accuracy": 0.14285714285714285,
+          "balanced_accuracy": 0.14285714285714285,
+          "chance_level": 0.14285714285714285,
+          "precision_macro": 0.07142857142857142,
+          "recall_macro": 0.14285714285714285,
+          "f1_macro": 0.09523809523809523,
+          "precision_weighted": 0.07142857142857142,
+          "recall_weighted": 0.14285714285714285,
+          "f1_weighted": 0.09523809523809523,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.5,
+              "recall": 1.0,
+              "f1": 0.6666666666666666,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Cafe",
+            "Casa",
+            "Esperar",
+            "Livro",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 1337,
+          "fold": "loso(holdout=2)",
+          "train_acc_final": 1.0,
+          "n_test": 7,
+          "accuracy": 0.2857142857142857,
+          "balanced_accuracy": 0.2857142857142857,
+          "chance_level": 0.14285714285714285,
+          "precision_macro": 0.14285714285714285,
+          "recall_macro": 0.2857142857142857,
+          "f1_macro": 0.19047619047619047,
+          "precision_weighted": 0.14285714285714285,
+          "recall_weighted": 0.2857142857142857,
+          "f1_weighted": 0.19047619047619047,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.5,
+              "recall": 1.0,
+              "f1": 0.6666666666666666,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.5,
+              "recall": 1.0,
+              "f1": 0.6666666666666666,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Cafe",
+            "Casa",
+            "Esperar",
+            "Livro",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 1337,
+          "fold": "loso(holdout=3)",
+          "train_acc_final": 1.0,
+          "n_test": 7,
+          "accuracy": 0.14285714285714285,
+          "balanced_accuracy": 0.14285714285714285,
+          "chance_level": 0.14285714285714285,
+          "precision_macro": 0.07142857142857142,
+          "recall_macro": 0.14285714285714285,
+          "f1_macro": 0.09523809523809523,
+          "precision_weighted": 0.07142857142857142,
+          "recall_weighted": 0.14285714285714285,
+          "f1_weighted": 0.09523809523809523,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.5,
+              "recall": 1.0,
+              "f1": 0.6666666666666666,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Cafe",
+            "Casa",
+            "Esperar",
+            "Livro",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 2024,
+          "fold": "loso(holdout=1)",
+          "train_acc_final": 1.0,
+          "n_test": 7,
+          "accuracy": 0.14285714285714285,
+          "balanced_accuracy": 0.14285714285714285,
+          "chance_level": 0.14285714285714285,
+          "precision_macro": 0.047619047619047616,
+          "recall_macro": 0.14285714285714285,
+          "f1_macro": 0.07142857142857142,
+          "precision_weighted": 0.047619047619047616,
+          "recall_weighted": 0.14285714285714285,
+          "f1_weighted": 0.07142857142857142,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.3333333333333333,
+              "recall": 1.0,
+              "f1": 0.5,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Cafe",
+            "Casa",
+            "Esperar",
+            "Livro",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 2024,
+          "fold": "loso(holdout=2)",
+          "train_acc_final": 1.0,
+          "n_test": 7,
+          "accuracy": 0.42857142857142855,
+          "balanced_accuracy": 0.42857142857142855,
+          "chance_level": 0.14285714285714285,
+          "precision_macro": 0.33333333333333337,
+          "recall_macro": 0.42857142857142855,
+          "f1_macro": 0.35714285714285715,
+          "precision_weighted": 0.33333333333333337,
+          "recall_weighted": 0.42857142857142855,
+          "f1_weighted": 0.35714285714285715,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.3333333333333333,
+              "recall": 1.0,
+              "f1": 0.5,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Cafe",
+            "Casa",
+            "Esperar",
+            "Livro",
+            "Oi"
+          ]
+        },
+        {
+          "seed": 2024,
+          "fold": "loso(holdout=3)",
+          "train_acc_final": 1.0,
+          "n_test": 7,
+          "accuracy": 0.2857142857142857,
+          "balanced_accuracy": 0.2857142857142857,
+          "chance_level": 0.14285714285714285,
+          "precision_macro": 0.14285714285714285,
+          "recall_macro": 0.2857142857142857,
+          "f1_macro": 0.19047619047619047,
+          "precision_weighted": 0.14285714285714285,
+          "recall_weighted": 0.2857142857142857,
+          "f1_weighted": 0.19047619047619047,
+          "per_class": [
+            {
+              "classe": "Abacaxi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Abraco",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Cafe",
+              "precision": 0.5,
+              "recall": 1.0,
+              "f1": 0.6666666666666666,
+              "support": 1
+            },
+            {
+              "classe": "Casa",
+              "precision": 0.5,
+              "recall": 1.0,
+              "f1": 0.6666666666666666,
+              "support": 1
+            },
+            {
+              "classe": "Esperar",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Livro",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            },
+            {
+              "classe": "Oi",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1
+            }
+          ],
+          "confusion_matrix": [
+            [
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "class_names": [
+            "Abacaxi",
+            "Abraco",
+            "Cafe",
+            "Casa",
+            "Esperar",
+            "Livro",
+            "Oi"
+          ]
+        }
+      ]
+    }
+  }
+}

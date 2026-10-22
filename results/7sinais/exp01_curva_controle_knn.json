@@ -1,0 +1,68 @@
+{
+  "experimento": "exp01_curva_controle_knn",
+  "timestamp": "2026-10-21T16:28:30",
+  "descricao": "teto de memorizacao por kNN sobre 1 ponto 3D, dois splits, grade de tamanho",
+  "papel": "curva de controle do exp01, ver docs/03_protocolo_curva_exp01.md",
+  "n_teste_avaliado": 20000,
+  "chance_level": 0.14285714285714285,
+  "grade": [
+    8000,
+    32000,
+    128000,
+    "completo"
+  ],
+  "curvas": {
+    "embaralhado_no_ponto": [
+      {
+        "n_treino": 8000,
+        "subamostrado": true,
+        "acuracia_k1": 0.5268,
+        "acuracia_k5": 0.49595
+      },
+      {
+        "n_treino": 32000,
+        "subamostrado": true,
+        "acuracia_k1": 0.62245,
+        "acuracia_k5": 0.6001
+      },
+      {
+        "n_treino": 128000,
+        "subamostrado": true,
+        "acuracia_k1": 0.69665,
+        "acuracia_k5": 0.68975
+      },
+      {
+        "n_treino": 264359,
+        "subamostrado": false,
+        "acuracia_k1": 0.7276,
+        "acuracia_k5": 0.7253
+      }
+    ],
+    "agrupado_por_articulador": [
+      {
+        "n_treino": 8000,
+        "subamostrado": true,
+        "acuracia_k1": 0.20345,
+        "acuracia_k5": 0.2091
+      },
+      {
+        "n_treino": 32000,
+        "subamostrado": true,
+        "acuracia_k1": 0.20875,
+        "acuracia_k5": 0.21275
+      },
+      {
+        "n_treino": 128000,
+        "subamostrado": true,
+        "acuracia_k1": 0.2014,
+        "acuracia_k5": 0.2037
+      },
+      {
+        "n_treino": 191433,
+        "subamostrado": false,
+        "acuracia_k1": 0.20105,
+        "acuracia_k5": 0.206
+      }
+    ]
+  }
+}

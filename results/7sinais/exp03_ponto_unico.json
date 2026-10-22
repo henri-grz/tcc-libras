@@ -1,0 +1,287 @@
+{
+  "experimento": "exp03_ponto_unico",
+  "timestamp": "2026-10-21T16:28:23",
+  "descricao": "classificacao a partir de um unico ponto 3D, split embaralhado do pipeline original",
+  "hipotese": "acuracia proxima do pipeline original indica que a LSTM nao contribui",
+  "smoke": false,
+  "n_train_points": 264359,
+  "n_test_points": 29374,
+  "melhor_acuracia_ponto_unico": 0.47330972969292573,
+  "chance_level": 0.14285714285714285,
+  "models": {
+    "logistic_regression": {
+      "n_test": 29374,
+      "accuracy": 0.25188942602301356,
+      "balanced_accuracy": 0.22192458700812687,
+      "chance_level": 0.14285714285714285,
+      "precision_macro": 0.1670423478919051,
+      "recall_macro": 0.22192458700812687,
+      "f1_macro": 0.16591399521747158,
+      "precision_weighted": 0.1816462047592403,
+      "recall_weighted": 0.25188942602301356,
+      "f1_weighted": 0.187380569138997,
+      "per_class": [
+        {
+          "classe": "Abacaxi",
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 3390
+        },
+        {
+          "classe": "Abraco",
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 3158
+        },
+        {
+          "classe": "Cafe",
+          "precision": 0.27280361079038523,
+          "recall": 0.5798750557786703,
+          "f1": 0.371047183953173,
+          "support": 4482
+        },
+        {
+          "classe": "Casa",
+          "precision": 0.14396709323583182,
+          "recall": 0.06809338521400778,
+          "f1": 0.09245670678015849,
+          "support": 4626
+        },
+        {
+          "classe": "Esperar",
+          "precision": 0.2579864472410455,
+          "recall": 0.5372983870967742,
+          "f1": 0.3485938521909745,
+          "support": 4960
+        },
+        {
+          "classe": "Livro",
+          "precision": 0.248521584861029,
+          "recall": 0.3303202986834349,
+          "f1": 0.2836412722517506,
+          "support": 5089
+        },
+        {
+          "classe": "Oi",
+          "precision": 0.24601769911504426,
+          "recall": 0.03788498228400109,
+          "f1": 0.06565895134624469,
+          "support": 3669
+        }
+      ],
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          1178,
+          174,
+          1176,
+          833,
+          29
+        ],
+        [
+          0,
+          0,
+          874,
+          174,
+          1324,
+          741,
+          45
+        ],
+        [
+          0,
+          0,
+          2599,
+          253,
+          854,
+          603,
+          173
+        ],
+        [
+          0,
+          0,
+          1445,
+          315,
+          1722,
+          1059,
+          85
+        ],
+        [
+          0,
+          0,
+          734,
+          436,
+          2665,
+          1074,
+          51
+        ],
+        [
+          0,
+          0,
+          1037,
+          391,
+          1937,
+          1681,
+          43
+        ],
+        [
+          0,
+          0,
+          1660,
+          445,
+          652,
+          773,
+          139
+        ]
+      ],
+      "class_names": [
+        "Abacaxi",
+        "Abraco",
+        "Cafe",
+        "Casa",
+        "Esperar",
+        "Livro",
+        "Oi"
+      ]
+    },
+    "single_point_mlp": {
+      "n_test": 29374,
+      "accuracy": 0.47330972969292573,
+      "balanced_accuracy": 0.4695383995312632,
+      "chance_level": 0.14285714285714285,
+      "precision_macro": 0.4753938499705104,
+      "recall_macro": 0.4695383995312632,
+      "f1_macro": 0.47043790411519265,
+      "precision_weighted": 0.4753333792603085,
+      "recall_weighted": 0.47330972969292573,
+      "f1_weighted": 0.4724512775520297,
+      "per_class": [
+        {
+          "classe": "Abacaxi",
+          "precision": 0.46729801716484165,
+          "recall": 0.46578171091445425,
+          "f1": 0.4665386319988181,
+          "support": 3390
+        },
+        {
+          "classe": "Abraco",
+          "precision": 0.49554655870445347,
+          "recall": 0.3875870804306523,
+          "f1": 0.4349680170575693,
+          "support": 3158
+        },
+        {
+          "classe": "Cafe",
+          "precision": 0.561520190023753,
+          "recall": 0.5274431057563588,
+          "f1": 0.543948458352508,
+          "support": 4482
+        },
+        {
+          "classe": "Casa",
+          "precision": 0.42376573088092934,
+          "recall": 0.3785127539991353,
+          "f1": 0.3998629824160767,
+          "support": 4626
+        },
+        {
+          "classe": "Esperar",
+          "precision": 0.4435949711179069,
+          "recall": 0.5264112903225806,
+          "f1": 0.48146782223861334,
+          "support": 4960
+        },
+        {
+          "classe": "Livro",
+          "precision": 0.49419862340216325,
+          "recall": 0.4938101788170564,
+          "f1": 0.4940043247493611,
+          "support": 5089
+        },
+        {
+          "classe": "Oi",
+          "precision": 0.44183285849952514,
+          "recall": 0.5072226764786045,
+          "f1": 0.47227509199340184,
+          "support": 3669
+        }
+      ],
+      "confusion_matrix": [
+        [
+          1579,
+          234,
+          396,
+          259,
+          487,
+          194,
+          241
+        ],
+        [
+          341,
+          1224,
+          176,
+          231,
+          514,
+          422,
+          250
+        ],
+        [
+          411,
+          133,
+          2364,
+          397,
+          312,
+          343,
+          522
+        ],
+        [
+          363,
+          234,
+          391,
+          1751,
+          826,
+          497,
+          564
+        ],
+        [
+          300,
+          264,
+          230,
+          373,
+          2611,
+          854,
+          328
+        ],
+        [
+          158,
+          244,
+          269,
+          637,
+          822,
+          2513,
+          446
+        ],
+        [
+          227,
+          137,
+          384,
+          484,
+          314,
+          262,
+          1861
+        ]
+      ],
+      "class_names": [
+        "Abacaxi",
+        "Abraco",
+        "Cafe",
+        "Casa",
+        "Esperar",
+        "Livro",
+        "Oi"
+      ]
+    }
+  }
+}
