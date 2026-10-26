@@ -85,12 +85,12 @@ def extract_one(video_path: Path, cfg: Config) -> dict[str, np.ndarray]:
             frame = cv2.resize(frame, (int(ext["frame_width"]), int(ext["frame_height"])))
             rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             rgb.flags.writeable = False
-            results = holistic.process(rgb)
+            frame_arrays = results_to_arrays(holistic.process(rgb))
 
-            pose_frames.append(_pose_to_array(results.pose_landmarks))
-            vis_frames.append(_visibility_to_array(results.pose_landmarks))
-            lh_frames.append(_hand_to_array(results.left_hand_landmarks))
-            rh_frames.append(_hand_to_array(results.right_hand_landmarks))
+            pose_frames.append(frame_arrays["pose"])
+            vis_frames.append(frame_arrays["pose_visibility"])
+            lh_frames.append(frame_arrays["left_hand"])
+            rh_frames.append(frame_arrays["right_hand"])
 
     capture.release()
 
@@ -102,6 +102,24 @@ def extract_one(video_path: Path, cfg: Config) -> dict[str, np.ndarray]:
         "pose_visibility": np.stack(vis_frames).astype(np.float32),
         "left_hand": np.stack(lh_frames).astype(np.float32),
         "right_hand": np.stack(rh_frames).astype(np.float32),
+    }
+
+
+def results_to_arrays(results) -> dict[str, np.ndarray]:
+    """Converte a saida do Holistic para UM frame nos arrays do cache.
+
+    Publica para que o uso em tempo real (src/checkpoint.py) monte os frames com a
+    mesma funcao da extracao.
+
+    Returns:
+        dict com `pose` (33,3), `pose_visibility` (33,), `left_hand` (21,3),
+        `right_hand` (21,3). NaN indica ausencia de deteccao.
+    """
+    return {
+        "pose": _pose_to_array(results.pose_landmarks),
+        "pose_visibility": _visibility_to_array(results.pose_landmarks),
+        "left_hand": _hand_to_array(results.left_hand_landmarks),
+        "right_hand": _hand_to_array(results.right_hand_landmarks),
     }
 
 

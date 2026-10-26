@@ -149,6 +149,15 @@ def build_dataset(
     )
 
 
+def standardization_stats(train: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Media e desvio por feature, so do treino. Usados por `standardize` e pelo exp07,
+    que padroniza cada lote depois do aumento de dados."""
+    flat = train.reshape(-1, train.shape[-1])
+    mean = flat.mean(axis=0, keepdims=True)
+    std = flat.std(axis=0, keepdims=True)
+    return mean, np.where(std < 1e-8, 1.0, std)
+
+
 def standardize(
     train: np.ndarray, *others: np.ndarray
 ) -> tuple[np.ndarray, ...]:
@@ -161,10 +170,7 @@ def standardize(
         train: (N, T, D).
         others: demais conjuntos a transformar com as estatisticas do treino.
     """
-    flat = train.reshape(-1, train.shape[-1])
-    mean = flat.mean(axis=0, keepdims=True)
-    std = flat.std(axis=0, keepdims=True)
-    std = np.where(std < 1e-8, 1.0, std)
+    mean, std = standardization_stats(train)
 
     def apply(a: np.ndarray) -> np.ndarray:
         shape = a.shape

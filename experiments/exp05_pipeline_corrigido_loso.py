@@ -15,7 +15,7 @@ Correcoes aplicadas:
 - 3 seeds x 3 folds, com media e desvio padrao (S10)
 - metricas por classe com nome correto (S6) e matriz de confusao salva (S11)
 
-Compara duas arquiteturas: LSTM corrigida e BiLSTM corrigida.
+Modelo: LSTM corrigida. O comparativo com BiLSTM saiu do escopo (CLAUDE.md, secao 3).
 
 Protocolo de treino (`--protocolo`, padrao em training.protocolo_loso do YAML):
 - revisado: epocas fixas, sem validacao, treino com todos os videos dos outros
@@ -43,6 +43,7 @@ from experiments._common import (  # noqa: E402
     add_protocol_arg,
     banner,
     base_parser,
+    salvar_modelo_final,
     stopping_kwargs,
 )
 
@@ -61,7 +62,7 @@ from src.splits import assert_no_group_leakage, loso_folds, protocol_train_val
 from src.train import get_device, predict, train_model
 
 NAME = "exp05_pipeline_corrigido_loso"
-MODELS = ("lstm_corrected", "bilstm_corrected")
+MODELS = ("lstm_corrected",)
 
 
 def main() -> None:
@@ -160,7 +161,24 @@ def main() -> None:
             f"f1_macro {agg['f1_macro']['mean'] * 100:.2f}% "
             f"+- {agg['f1_macro']['std'] * 100:.2f}  |  {params:,} parametros"
         )
-        all_results[model_name] = {"aggregate": agg, "n_params": params, "runs": runs}
+        modelo = salvar_modelo_final(
+            cfg, samples, f"{run_name}_{model_name}", model_name, seed=seeds[0],
+            treino={
+                "batch_size": int(tr_cfg["batch_size"]),
+                "learning_rate": float(tr_cfg["learning_rate"]),
+                "device": device,
+                "verbose": False,
+                **stopping_kwargs(protocolo, tr_cfg, epochs),
+            },
+            aggregate=agg,
+            info={"experimento": run_name, "protocolo": protocolo,
+                  "resultado": f"{run_name}.json"},
+            smoke=bool(args.smoke),
+        )
+        all_results[model_name] = {
+            "aggregate": agg, "n_params": params, "runs": runs,
+            "modelo_final": modelo.relative_to(cfg.results_dir).as_posix(),
+        }
 
         if first_cm is not None:
             plot_confusion_matrix(

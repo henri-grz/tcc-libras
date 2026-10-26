@@ -25,6 +25,7 @@ from experiments._common import (  # noqa: E402
     add_protocol_arg,
     banner,
     base_parser,
+    salvar_modelo_final,
     stopping_kwargs,
 )
 
@@ -130,7 +131,25 @@ def main() -> None:
             f"\n{ablation}: acuracia {agg['accuracy']['mean'] * 100:.2f}% "
             f"+- {agg['accuracy']['std'] * 100:.2f}"
         )
-        results[ablation] = {"blocks": blocks, "dim": subset.dim, "aggregate": agg, "runs": runs}
+        modelo = salvar_modelo_final(
+            cfg, subset, f"{run_name}_{ablation}", args.model, seed=seeds[0],
+            treino={
+                "batch_size": int(tr_cfg["batch_size"]),
+                "learning_rate": float(tr_cfg["learning_rate"]),
+                "device": device,
+                "verbose": False,
+                **stopping_kwargs(protocolo, tr_cfg, epochs),
+            },
+            aggregate=agg,
+            info={"experimento": run_name, "protocolo": protocolo, "ablacao": ablation,
+                  "resultado": f"{run_name}.json"},
+            smoke=bool(args.smoke),
+            blocks=blocks,
+        )
+        results[ablation] = {
+            "blocks": blocks, "dim": subset.dim, "aggregate": agg, "runs": runs,
+            "modelo_final": modelo.relative_to(cfg.results_dir).as_posix(),
+        }
 
     banner("EXP06 conclusao")
     print(f"{'ablacao':<12} {'D':>5}  {'acuracia':>18}  {'f1_macro':>18}")
