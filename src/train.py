@@ -10,11 +10,15 @@ no exp01.
 O modo `monitor="none"` treina todas as epocas e mantem os pesos finais, sem
 validacao. E o protocolo revisado do exp05 e do exp06, ver
 docs/04_revisao_protocolo_exp05.md.
+
+`batch_transform` aplica o aumento de dados do exp07 a cada lote de treino, e so ao
+treino.
 """
 
 from __future__ import annotations
 
 import copy
+from collections.abc import Callable
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -87,6 +91,7 @@ def train_model(
     device: torch.device | None = None,
     verbose: bool = True,
     restore_best: bool = True,
+    batch_transform: Callable[[torch.Tensor], torch.Tensor] | None = None,
 ) -> History:
     """Treina o modelo e devolve o historico.
 
@@ -97,6 +102,9 @@ def train_model(
         patience: epocas sem melhora antes de parar. Ignorado com monitor="none".
         restore_best: com False, mantem os pesos da ultima epoca mesmo com early
             stopping, como o codigo de Prestes (Apendice B, p. 55).
+        batch_transform: aplicada a cada lote de treino, ainda na CPU, antes do forward;
+            nunca na validacao nem no teste (exp07). Com ela, `train_acc` mede o acerto
+            nos lotes transformados.
 
     Returns:
         History. Os pesos do modelo ficam nos melhores encontrados pelo monitor, ou nos
@@ -127,6 +135,8 @@ def train_model(
         running_loss, correct, total = 0.0, 0, 0
 
         for xb, yb in train_loader:
+            if batch_transform is not None:
+                xb = batch_transform(xb)
             xb, yb = xb.to(device), yb.to(device)
             optimizer.zero_grad()
             out = model(xb)

@@ -56,12 +56,40 @@ make extract
 # 3. Reproducao do pipeline original e experimentos-controle
 make controles
 
-# 4. Resultado principal e ablacao
+# 4. Resultado principal, ablacao e aumento de dados
 make exp05
 make exp06
+make exp07
 ```
 
 Cada experimento grava um JSON em `results/` mais a matriz de confusao em PNG.
+
+## Modelo treinado
+
+exp05, exp06 e exp07 tambem gravam um modelo treinado em `results/modelos/*.pth`
+(com `configs/7sinais.yaml`, em `results/7sinais/modelos/`): um por modelo do exp05,
+um por ablacao do exp06 e um por condicao do exp07. Rodadas `--smoke` gravam com
+sufixo `_smoke`. Os arquivos `.pth` ficam fora do git.
+
+O modelo e treinado com **todos** os videos depois da avaliacao LOSO, entao nao ha
+teste independente dele: o desempenho esperado em um sinalizador novo e a acuracia
+LOSO do experimento, gravada dentro do arquivo (`info["avaliacao_loso"]`). Os modelos
+dos folds nao sao salvos. exp01 a exp04 nao gravam modelo: reproduzem o pipeline
+original, que classifica pontos 3D soltos.
+
+O arquivo e autocontido: pesos, classes, layout das features, T, media e desvio da
+padronizacao e o bloco `extraction` do YAML. Os quadros devem ser redimensionados para
+`frame_width` x `frame_height` antes do MediaPipe, como na extracao.
+
+```python
+from src.checkpoint import load_checkpoint
+from src.extract_landmarks import results_to_arrays
+
+modelo = load_checkpoint("results/modelos/exp05_pipeline_corrigido_loso_revisado_lstm_corrected.pth")
+# por frame: arrays = results_to_arrays(holistic.process(rgb)), empilhados em
+# pose (F,33,3), left_hand (F,21,3), right_hand (F,21,3)
+sinal, prob = modelo.prever(pose, left_hand, right_hand)
+```
 
 ## Duas configuracoes
 
@@ -98,8 +126,11 @@ e criterios de leitura em `docs/05_protocolo_experimento1.md`.
 | `exp04_split_agrupado` | Mesma representacao e mesmo modelo, mudando so o split. Quanto cai? |
 | `exp05_pipeline_corrigido_loso` | Qual e o desempenho em sinalizadores que o modelo nunca viu? |
 | `exp06_ablacao_features` | Os landmarks de pose agregam sobre os de mao? |
+| `exp07_aumento_dados` | Aumentar os dados de treino melhora o reconhecimento em sinalizadores nunca vistos? |
 
-`exp01` a `exp04` formam a reproducao e os controles. `exp05` e o resultado principal.
+`exp01` a `exp04` formam a reproducao e os controles. `exp05` a `exp07` formam o
+pipeline proposto; `exp05` e o resultado principal. O registro previo do `exp07` esta em
+`docs/06_protocolo_exp07_aumento.md`.
 
 `diag_exp05` nao e experimento do TCC: e o diagnostico que motivou a revisao do
 protocolo de treino do `exp05` e do `exp06` (ver `docs/04_revisao_protocolo_exp05.md`).
@@ -142,6 +173,7 @@ docs/
   03_protocolo_curva_exp01.md  regra do ponto de operacao do exp01, definida a priori
   04_revisao_protocolo_exp05.md  revisao do protocolo de treino do exp05 e do exp06
   05_protocolo_experimento1.md   protocolo das rodadas de 7 sinais, definido a priori
+  06_protocolo_exp07_aumento.md  protocolo do aumento de dados (exp07), definido a priori
 src/
   config.py               carregamento de configuracao
   seeding.py              fixacao de seed
@@ -149,6 +181,7 @@ src/
   extract_landmarks.py    MediaPipe Holistic, roda uma vez, gera o cache
   dataset.py              dataset corrigido (uma amostra = um video)
   splits.py               split agrupado por video e por sinalizador
+  augment.py              aumento de dados do exp07, aplicado so ao treino
   models.py               LSTMOriginal (replica fiel) e versoes corrigidas
   train.py                laco de treino com early stopping na validacao
   evaluate.py             metricas com nomes corretos, matriz de confusao

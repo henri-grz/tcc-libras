@@ -89,3 +89,13 @@ reproducao:
   max_sequences: 0
   # exp03: pontos 3D individuais (a rodada antiga, exp03_ponto_unico_200k, usou 200000)
   max_points: 0
+
+# Aumento de dados do exp07. Registro previo em docs/06_protocolo_exp07_aumento.md.
+# Fixado antes de rodar: nao ajustar pelo resultado de teste. A rotacao usa o aspecto
+# de extraction (frame_height / frame_width) para girar em coordenadas isotropicas.
+aumento:
+  seeds: [42, 1337, 2024, 0, 1, 2, 3, 4, 5, 6]
+  corte_temporal_max: 0.10   # fracao maxima removida no inicio e no fim, cada
+  rotacao_graus: 15          # angulo sorteado em [-15, 15], plano x-y
+  escala: [0.9, 1.1]         # fatores de x e de y, sorteados de forma independente
+  ruido_std: 0.01            # em unidades da distancia entre ombros

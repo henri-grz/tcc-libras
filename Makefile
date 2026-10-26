@@ -1,7 +1,7 @@
 # Atalhos do projeto. Ver README.md para o contexto e docs/ para a metodologia.
 PY ?= python3
 
-.PHONY: help setup synthetic extract test smoke exp01 exp02 exp03 exp04 exp05 exp06 controles all clean-results
+.PHONY: help setup synthetic extract test smoke exp01 exp02 exp03 exp04 exp05 exp06 exp07 controles all clean-results
 
 help:
 	@echo "setup      instala as dependencias"
@@ -38,9 +38,10 @@ exp03: ; $(PY) -m experiments.exp03_ponto_unico
 exp04: ; $(PY) -m experiments.exp04_split_agrupado
 exp05: ; $(PY) -m experiments.exp05_pipeline_corrigido_loso
 exp06: ; $(PY) -m experiments.exp06_ablacao_features
+exp07: ; $(PY) -m experiments.exp07_aumento_dados
 
 controles: exp01 exp02 exp03 exp04
-all: controles exp05 exp06
+all: controles exp05 exp06 exp07
 
 clean-results:
 	rm -f results/*.json results/*.png

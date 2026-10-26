@@ -288,6 +288,186 @@ def test_config_7sinais_so_difere_no_previsto() -> None:
     assert difs <= previstas, f"diferencas nao previstas: {sorted(difs - previstas)}"
 
 
+def test_aumento_neutro_e_identidade() -> None:
+    import torch
+
+    from src.augment import ParamsAumento, aumentar_lote
+
+    x = torch.randn(4, 32, SPEC.dim)
+    neutro = ParamsAumento(corte_temporal_max=0.0, rotacao_graus=0.0, escala=(1.0, 1.0),
+                           ruido_std=0.0, aspecto=0.75)
+    y = aumentar_lote(x, SPEC, neutro, torch.Generator().manual_seed(0))
+    assert torch.allclose(x, y, atol=1e-6)
+
+
+def test_aumento_preserva_ausentes_e_flags() -> None:
+    import torch
+
+    from src.augment import ParamsAumento, aumentar_lote
+
+    blocos = SPEC.block_slices()
+    x = torch.randn(3, 32, SPEC.dim)
+    x[:, :, blocos["left_hand"]] = 0.0          # mao esquerda ausente
+    x[:, :, blocos["flags"]] = torch.tensor([0.0, 1.0])
+    p = ParamsAumento(corte_temporal_max=0.0, aspecto=0.75)  # sem corte: flags iguais
+    y = aumentar_lote(x, SPEC, p, torch.Generator().manual_seed(0))
+    assert y.shape == x.shape
+    assert torch.equal(y[:, :, blocos["left_hand"]], x[:, :, blocos["left_hand"]])
+    assert torch.equal(y[:, :, blocos["flags"]], x[:, :, blocos["flags"]])
+    assert not torch.allclose(y[:, :, blocos["pose"]], x[:, :, blocos["pose"]])
+
+
+def test_rotacao_preserva_distancias_isotropicas() -> None:
+    """Girar as fracoes de largura e de altura diretamente deformaria o corpo no quadro
+    1024 x 768. Com y convertido pelo aspecto, a rotacao preserva as distancias reais."""
+    import torch
+
+    from src.augment import ParamsAumento, aumentar_lote
+
+    x = torch.randn(2, 8, SPEC.dim)
+    p = ParamsAumento(corte_temporal_max=0.0, rotacao_graus=30.0, escala=(1.0, 1.0),
+                      ruido_std=0.0, aspecto=0.75)
+    y = aumentar_lote(x, SPEC, p, torch.Generator().manual_seed(1))
+    n = SPEC.block_slices()["right_hand"].stop
+    em_pixels = torch.tensor([1.0, 0.75])  # y na unidade de x
+    a = x[:, :, :n].reshape(2, 8, -1, 3)[..., :2] * em_pixels
+    b = y[:, :, :n].reshape(2, 8, -1, 3)[..., :2] * em_pixels
+    assert torch.allclose(a.norm(dim=-1), b.norm(dim=-1), atol=1e-5)
+    assert not torch.allclose(a, b)
+
+
+def test_aumento_deterministico_por_semente() -> None:
+    import torch
+
+    from src.augment import ParamsAumento, aumentar_lote
+
+    x = torch.randn(3, 32, SPEC.dim)
+    p = ParamsAumento(aspecto=0.75)
+    a = aumentar_lote(x, SPEC, p, torch.Generator().manual_seed(7))
+    b = aumentar_lote(x, SPEC, p, torch.Generator().manual_seed(7))
+    c = aumentar_lote(x, SPEC, p, torch.Generator().manual_seed(8))
+    assert torch.equal(a, b), "a mesma semente deve gerar o mesmo aumento"
+    assert not torch.allclose(a, c), "sementes diferentes devem gerar aumentos diferentes"
+
+
+def test_batch_transform_so_no_treino() -> None:
+    import torch
+
+    from src.train import predict, train_model
+
+    chamadas = []
+
+    def transform(xb):
+        chamadas.append(len(xb))
+        return xb
+
+    rng = np.random.RandomState(0)
+    X = rng.normal(size=(8, 4, 3)).astype(np.float32)
+    y = np.arange(8) % 2
+    model = torch.nn.Sequential(torch.nn.Flatten(), torch.nn.Linear(12, 2))
+    train_model(model, X, y, epochs=3, batch_size=4, monitor="none",
+                device=torch.device("cpu"), verbose=False, batch_transform=transform)
+    assert len(chamadas) == 6  # 3 epocas x 2 lotes
+    predict(model, X, device=torch.device("cpu"))
+    assert len(chamadas) == 6, "predict nao pode aplicar o aumento"
+
+
+def test_standardization_stats_igual_ao_standardize() -> None:
+    from src.dataset import standardization_stats
+
+    rng = np.random.RandomState(0)
+    tr = rng.normal(5, 2, size=(6, 4, 3)).astype(np.float32)
+    mean, std = standardization_stats(tr)
+    (tr_s,) = standardize(tr)
+    assert np.allclose(tr_s, (tr - mean) / std, atol=1e-5)
+
+
+def test_aumento_neutro_reproduz_treino_padronizado() -> None:
+    """O caminho com_aumento do exp07 (X bruto, aumento e padronizacao no lote) com
+    intensidades zero treina como o sem_aumento (X padronizado antes). Entao a unica
+    diferenca entre as condicoes e o aumento."""
+    import torch
+
+    from src.augment import ParamsAumento, aumentar_lote
+    from src.dataset import standardization_stats
+    from src.train import train_model
+
+    rng = np.random.RandomState(0)
+    X = rng.normal(2, 3, size=(8, 4, SPEC.dim)).astype(np.float32)
+    y = np.arange(8) % 2
+    neutro = ParamsAumento(corte_temporal_max=0.0, rotacao_graus=0.0, escala=(1.0, 1.0),
+                           ruido_std=0.0, aspecto=0.75)
+    mean, std = standardization_stats(X)
+    mean_t, std_t = torch.as_tensor(mean), torch.as_tensor(std)
+    gen = torch.Generator().manual_seed(0)
+
+    finais = []
+    for X_in, transform in (
+        (standardize(X)[0], None),
+        (X, lambda xb: (aumentar_lote(xb, SPEC, neutro, gen) - mean_t) / std_t),
+    ):
+        torch.manual_seed(0)
+        model = torch.nn.Sequential(torch.nn.Flatten(), torch.nn.Linear(4 * SPEC.dim, 2))
+        train_model(model, X_in, y, epochs=3, batch_size=4, monitor="none",
+                    device=torch.device("cpu"), verbose=False, batch_transform=transform)
+        finais.append([p.detach().clone() for p in model.parameters()])
+    assert all(torch.allclose(a, b, atol=1e-5) for a, b in zip(*finais))
+
+
+def test_checkpoint_ida_e_volta() -> None:
+    """O modelo carregado recebe landmarks brutos e monta a mesma entrada que os
+    experimentos montam (build_frame_matrix, reamostragem, colunas da ablacao,
+    padronizacao do treino), e devolve as mesmas logits. Vetor inteiro e so maos."""
+    import tempfile
+
+    import torch
+
+    from src.checkpoint import load_checkpoint, save_checkpoint
+    from src.dataset import standardization_stats
+    from src.models import build_model
+
+    rng = np.random.RandomState(0)
+    T, n_frames = 8, 13
+
+    def video() -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+        pose = rng.uniform(0.2, 0.8, size=(n_frames, 33, COORDS)).astype(np.float32)
+        left = rng.uniform(0.2, 0.8, size=(n_frames, N_HAND, COORDS)).astype(np.float32)
+        right = rng.uniform(0.2, 0.8, size=(n_frames, N_HAND, COORDS)).astype(np.float32)
+        left[::3] = np.nan  # mao ausente em alguns frames
+        return pose, left, right
+
+    videos = [video() for _ in range(6)]
+    X = np.stack([
+        resample_to_length(build_frame_matrix(*v, SPEC, normalize=True), T) for v in videos
+    ])
+    slices = SPEC.block_slices()
+
+    for blocks in (None, ["left_hand", "right_hand", "flags"]):
+        nomes = blocks or list(slices)
+        cols = np.concatenate([np.arange(slices[b].start, slices[b].stop) for b in nomes])
+        X_b = X[:, :, cols]
+        mean, std = standardization_stats(X_b)
+        (X_s,) = standardize(X_b)
+
+        torch.manual_seed(0)
+        model = build_model("lstm_corrected", input_size=len(cols), num_classes=3).eval()
+        with tempfile.TemporaryDirectory() as d:
+            path = save_checkpoint(
+                Path(d) / "m.pth", model, "lstm_corrected", ["a", "b", "c"], SPEC, blocks,
+                sequence_length=T, normalize=True, mean=mean, std=std,
+                extracao={"frame_width": 1024, "frame_height": 768}, info={},
+            )
+            carregado = load_checkpoint(path)
+
+        for i, v in enumerate(videos):
+            entrada = carregado.preparar(*v)
+            assert np.allclose(entrada, X_s[i], atol=1e-5)
+            with torch.no_grad():
+                esperado = model(torch.from_numpy(X_s[i : i + 1]))[0].softmax(0).numpy()
+            assert np.allclose(carregado.probabilidades(*v), esperado, atol=1e-5)
+        assert carregado.prever(*videos[0])[0] in {"a", "b", "c"}
+
+
 if __name__ == "__main__":
     failures = 0
     for name, fn in sorted(globals().items()):
