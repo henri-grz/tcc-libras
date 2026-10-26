@@ -258,4 +258,73 @@ que o original poria no teste. A funcao passa a chamar o proprio `train_test_spl
 
 ## Resultado
 
-A preencher depois das rodadas.
+Registrado em 22/10/2026. Todas as rodadas reais foram feitas depois dos commits de
+registro deste protocolo (`ca569e6`, 13/10/2026, e `8c7b48a`, 21/10/2026, com a
+alteracao do split) e estao em `results/` (11 sinais) e `results/7sinais/` (7 sinais).
+
+| Experimento | 7 sinais (Experimento 1) | 11 sinais (Experimento 2, sem INES) |
+|---|---|---|
+| Prestes, publicado | 82,83% | 70,76% |
+| exp01, todos os videos | 65,84% | 42,40% |
+| exp01, C3 (14 videos) | 62,58% | nao rodado |
+| exp02, rotulos aleatorios (media +- dp) | 62,07% +- 3,56 | 50,47% +- 3,61 |
+| exp03, ponto unico (MLP / regressao logistica) | 47,33% / 25,19% | 35,27% / 16,22% |
+| exp04, split agrupado (media +- dp) | 23,72% +- 8,89 | 10,90% +- 8,47 |
+| Queda do exp01 para o exp04 (calculada pelo exp04) | 42,11 pp | 31,50 pp |
+| Curva kNN, k=1, treino completo: embaralhado / agrupado | 72,76% / 20,11% | 65,27% / 11,83% |
+| exp05, `lstm_corrected` (media +- dp) | 23,81% +- 10,10 | 24,24% +- 9,09 |
+| 1-NN sem treino (`diag_exp05`): sequencia achatada / media temporal | 38,10% / 47,62% | 30,30% / 33,33% |
+| exp06: maos / maos + pose / so pose | 34,92% / 23,81% / 26,98% | 18,18% / 24,24% / 21,21% |
+| Chance | 14,29% | 9,09% |
+
+- O exp05, o exp06 e o `diag_exp05` de 11 sinais sao as rodadas de 05/10/2026
+  (protocolo revisado do docs/04). Eles nao usam o pipeline original e nao foram
+  refeitos (ver "Nova rodada de 11 sinais").
+- O exp04 de 11 sinais rodou de novo em 20/10/2026, depois do exp01, para calcular a
+  queda. As acuracias por seed repetiram exatamente as da rodada de 19/10/2026.
+
+### Leitura pelos criterios registrados
+
+- **exp02.** Vazamento confirmado nas duas configuracoes: a acuracia media com rotulos
+  aleatorios e 4,34 vezes a chance com 7 sinais e 5,55 vezes com 11 (criterio: mais de
+  1,5 vez).
+- **exp05, 7 sinais.** Nenhuma seed atinge 7 acertos em 21: 5/21 (p = 0,171), 4/21
+  (p = 0,352) e 6/21 (p = 0,068). Pelo criterio registrado, o pipeline corrigido nao se
+  distingue da chance com 7 sinais. A acuracia de treino da ultima epoca foi 100% nos 9
+  treinos: nao houve subajuste. Com 11 sinais, cada seed acertou 8/33 (p = 0,008).
+- **exp06, 7 sinais.** So 1 das 9 combinacoes de configuracao e seed atinge o criterio
+  (maos, seed 42: 11/21, p < 0,001); as demais ficam entre 4 e 6 acertos. Os desvios
+  entre seeds (10 a 22 pp) sao maiores que as diferencas entre configuracoes, e a
+  ablacao e inconclusiva.
+- **exp01.** Com 7 sinais, o resultado fica 16,99 pp abaixo de 82,83% com todos os
+  videos e 20,25 pp abaixo com os 14 videos da C3. Com 11 sinais, fica 28,36 pp abaixo
+  de 70,76%. Diferencas conhecidas:
+  - o corte manual da posicao neutra, nao reproduzido;
+  - as versoes de bibliotecas, nao informadas por Prestes;
+  - na variante B, a suposicao de nomes;
+  - com 11 sinais, a ausencia dos videos do INES e o descarte da C3, nao replicado.
+
+  Outras diferencas observadas:
+  - **Parada.** Prestes relata a epoca 96 no Experimento 1; aqui, 99 (todos os videos)
+    e 24 (C3).
+  - **Pesos finais.** Com 11 sinais, a loss de treino saltou na epoca 92 (de 1,27 para
+    1,42) e continuou subindo ate a parada, na 95. Com os pesos da ultima epoca, como no
+    original, o modelo avaliado acerta 45,20% do treino; na melhor epoca (90) eram
+    55,42%. Com 7 sinais houve um salto parecido na epoca 96, com efeito pequeno
+    (66,16% do treino na melhor epoca, 64,88% na ultima).
+  - **Loss.** Prestes relata 0,0149; aqui, a loss de treino final foi 0,91 (7 sinais) e
+    1,52 (11 sinais). Com 17,17% de erro, a entropia cruzada media no teste seria de pelo
+    menos 0,12, entao o valor relatado so pode ser o de treino.
+
+### Observacoes fora dos criterios
+
+- Com rotulos aleatorios, a acuracia fica proxima da do exp01 com os rotulos
+  verdadeiros (62,07% contra 65,84% com 7 sinais) e acima dela com 11 sinais (50,47%
+  contra 42,40%, efeito do salto de loss descrito acima).
+- O kNN sobre um unico ponto supera a LSTM do exp01 nas duas configuracoes (72,76%
+  contra 65,84%; 65,27% contra 42,40%).
+- Na curva kNN, a acuracia com o split embaralhado sobe com o tamanho do treino (de
+  52,68% para 72,76% com 7 sinais; de 38,56% para 65,27% com 11), e a do split agrupado
+  fica estavel (entre 20,11% e 20,88%; entre 10,90% e 11,88%).
+- O 1-NN sem treino supera a LSTM corrigida do exp05 nas duas configuracoes, com
+  p <= 0,006.
