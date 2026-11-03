@@ -91,6 +91,26 @@ modelo = load_checkpoint("results/modelos/exp05_pipeline_corrigido_loso_revisado
 sinal, prob = modelo.prever(pose, left_hand, right_hand)
 ```
 
+## Demo
+
+Interface local (Gradio) para mostrar o modelo treinado. Precisa de um `.pth` em
+`results/modelos/` (rode o exp05 antes).
+
+```bash
+make demo                      # ou: python -m app.demo [--camera 1] [--config configs/7sinais.yaml]
+```
+
+- **Video:** envia um video de um sinal e recebe o video com os landmarks do MediaPipe
+  e os tres sinais mais provaveis. Se o video fez parte do treino (mesmo conteudo ou
+  mesmo nome de um video da V-LIBRASIL), a tela avisa que o acerto mede memorizacao.
+- **Webcam:** landmarks ao vivo e predicao a cada 0,5 s sobre os ultimos 5,5 s
+  (mediana da duracao dos videos de treino, ajustavel na tela). Sem mao na janela,
+  nao ha predicao.
+
+A tela mostra a acuracia LOSO do modelo, que e o desempenho esperado em uma pessoa
+nova. Os quadros sao recortados para 16:9, o aspecto dos videos de treino, antes do
+mesmo redimensionamento da extracao. A demo nao e resultado do TCC.
+
 ## Duas configuracoes
 
 | Configuracao | Comparada com | Parametro | Resultados |

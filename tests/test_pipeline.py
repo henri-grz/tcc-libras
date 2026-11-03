@@ -468,6 +468,34 @@ def test_checkpoint_ida_e_volta() -> None:
         assert carregado.prever(*videos[0])[0] in {"a", "b", "c"}
 
 
+def test_demo_recorte_para_16_9() -> None:
+    """A demo recorta webcam 4:3 (ou mais larga que 16:9) para o aspecto da V-LIBRASIL
+    antes do resize da extracao. Quadro 16:9 passa intacto."""
+    from app.processamento import recortar_aspecto
+
+    for h, w in ((480, 640), (1080, 2560), (720, 1280)):
+        out = recortar_aspecto(np.zeros((h, w, 3), np.uint8))
+        assert abs(out.shape[1] / out.shape[0] - 16 / 9) < 0.01
+    assert recortar_aspecto(np.zeros((720, 1280, 3), np.uint8)).shape == (720, 1280, 3)
+
+
+def test_demo_janela_em_segundos_independe_do_fps() -> None:
+    """A janela da webcam guarda os ultimos N segundos, nao os ultimos N quadros: os
+    videos de treino tem 24, 30 ou 60 fps e o modelo ve o sinal inteiro."""
+    from app.processamento import JanelaDeslizante, fracao_com_mao
+
+    sem_mao = {"pose": np.zeros((33, 3)), "left_hand": np.full((N_HAND, 3), np.nan),
+               "right_hand": np.full((N_HAND, 3), np.nan)}
+    com_mao = {**sem_mao, "right_hand": np.zeros((N_HAND, 3))}
+    for fps in (15, 30, 60):
+        janela = JanelaDeslizante(5.5)
+        for i in range(10 * fps):
+            janela.adicionar(i / fps, com_mao if i % 2 else sem_mao)
+        assert abs(janela.duracao() - 5.5) <= 1 / fps
+        assert abs(len(janela) - 5.5 * fps) <= 1
+        assert abs(fracao_com_mao(janela.quadros()) - 0.5) < 0.02
+
+
 if __name__ == "__main__":
     failures = 0
     for name, fn in sorted(globals().items()):

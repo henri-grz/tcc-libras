@@ -10,3 +10,5 @@ matplotlib>=3.8
 torch>=2.2
 opencv-python>=4.9
 mediapipe==0.10.21
+# So para a demo (app/demo.py), fora dos experimentos
+gradio==6.30.0

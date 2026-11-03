@@ -1,7 +1,7 @@
 # Atalhos do projeto. Ver README.md para o contexto e docs/ para a metodologia.
 PY ?= python3
 
-.PHONY: help setup synthetic extract test smoke exp01 exp02 exp03 exp04 exp05 exp06 exp07 controles all clean-results
+.PHONY: help setup synthetic extract test smoke exp01 exp02 exp03 exp04 exp05 exp06 exp07 controles all demo clean-results
 
 help:
 	@echo "setup      instala as dependencias"
@@ -11,6 +11,7 @@ help:
 	@echo "smoke      roda os 6 experimentos em modo rapido, para validar o codigo"
 	@echo "controles  exp01 a exp04, reproducao e experimentos-controle"
 	@echo "all        todos os experimentos, execucao completa"
+	@echo "demo       interface de demonstracao do modelo treinado (video e webcam)"
 
 setup:
 	$(PY) -m pip install -r requirements.txt
@@ -42,6 +43,8 @@ exp07: ; $(PY) -m experiments.exp07_aumento_dados
 
 controles: exp01 exp02 exp03 exp04
 all: controles exp05 exp06 exp07
+
+demo: ; $(PY) -m app.demo
 
 clean-results:
 	rm -f results/*.json results/*.png
