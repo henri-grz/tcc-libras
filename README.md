@@ -71,9 +71,9 @@ exp05, exp06 e exp07 tambem gravam um modelo treinado em `results/modelos/*.pth`
 um por ablacao do exp06 e um por condicao do exp07. Rodadas `--smoke` gravam com
 sufixo `_smoke`. Os arquivos `.pth` ficam fora do git.
 
-O modelo e treinado com **todos** os videos depois da avaliacao LOSO, entao nao ha
-teste independente dele: o desempenho esperado em um sinalizador novo e a acuracia
-LOSO do experimento, gravada dentro do arquivo (`info["avaliacao_loso"]`). Os modelos
+O modelo e treinado com **todos** os videos depois da avaliacao por sinalizador, entao
+nao ha teste independente dele: o desempenho esperado em um sinalizador novo e a
+acuracia dessa avaliacao, gravada dentro do arquivo (`info["avaliacao_loso"]`). Os modelos
 dos folds nao sao salvos. exp01 a exp04 nao gravam modelo: reproduzem o pipeline
 original, que classifica pontos 3D soltos.
 
@@ -107,8 +107,8 @@ make demo                      # ou: python -m app.demo [--camera 1] [--config c
   (mediana da duracao dos videos de treino, ajustavel na tela). Sem mao na janela,
   nao ha predicao.
 
-A tela mostra a acuracia LOSO do modelo, que e o desempenho esperado em uma pessoa
-nova. Os quadros sao recortados para 16:9, o aspecto dos videos de treino, antes do
+A tela mostra a acuracia da avaliacao por sinalizador, que e o desempenho esperado em
+uma pessoa nova. Os quadros sao recortados para 16:9, o aspecto dos videos de treino, antes do
 mesmo redimensionamento da extracao. A demo nao e resultado do TCC.
 
 ## Duas configuracoes
@@ -149,7 +149,7 @@ e criterios de leitura em `docs/05_protocolo_experimento1.md`.
 | `exp07_aumento_dados` | Aumentar os dados de treino melhora o reconhecimento em sinalizadores nunca vistos? |
 
 `exp01` a `exp04` formam a reproducao e os controles. `exp05` a `exp07` formam o
-pipeline proposto; `exp05` e o resultado principal. O registro previo do `exp07` esta em
+pipeline alternativo; `exp05` e o resultado principal. O registro previo do `exp07` esta em
 `docs/06_protocolo_exp07_aumento.md`.
 
 `diag_exp05` nao e experimento do TCC: e o diagnostico que motivou a revisao do
@@ -199,10 +199,10 @@ src/
   seeding.py              fixacao de seed
   landmarks_spec.py       vetor de features por frame, normalizacao, reamostragem
   extract_landmarks.py    MediaPipe Holistic, roda uma vez, gera o cache
-  dataset.py              dataset corrigido (uma amostra = um video)
+  dataset.py              dataset do pipeline alternativo (uma amostra = um video)
   splits.py               split agrupado por video e por sinalizador
   augment.py              aumento de dados do exp07, aplicado so ao treino
-  models.py               LSTMOriginal (replica fiel) e versoes corrigidas
+  models.py               LSTMOriginal (replica fiel) e LSTMCorrected (pipeline alternativo)
   train.py                laco de treino com early stopping na validacao
   evaluate.py             metricas com nomes corretos, matriz de confusao
   baseline_original.py    reproducao fiel do pipeline original, para exp01 a exp04

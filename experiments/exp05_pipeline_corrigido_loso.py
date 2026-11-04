@@ -184,7 +184,7 @@ def main() -> None:
             plot_confusion_matrix(
                 first_cm, samples.class_names,
                 cfg.results_dir / f"{run_name}_{model_name}_confusao.png",
-                title=f"EXP05 {model_name}, protocolo {protocolo} (fold 1)",
+                title=f"EXP05 pipeline alternativo, protocolo {protocolo} (fold 1)",
             )
 
     banner("EXP05 conclusao")
